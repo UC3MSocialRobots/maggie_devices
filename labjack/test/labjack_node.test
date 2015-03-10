@@ -1,0 +1,4 @@
+<launch>
+	<test test-name="TestLabjackNode" pkg="labjack" type="gtest_labjack_node.exe"
+		time-limit="60.0" />
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+	<test test-name="TestEyelidsNode" pkg="eyelids" type="gtest_eyelids_node.exe"
+		time-limit="60.0" />
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+	<test test-name="TestIrControllerNode" pkg="ir_controller" type="gtest_ir_controller_node.exe"
+		time-limit="60.0" />
+</launch>

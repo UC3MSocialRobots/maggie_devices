@@ -1,0 +1,6 @@
+<launch>
+	<arg name="robot" />
+	<group ns="$(arg robot)">
+		<node name="labjack" pkg="labjack" type="labjack_node_main.exe" output="screen" />
+	</group>
+</launch>
