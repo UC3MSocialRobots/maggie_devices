@@ -1,2 +1,2 @@
 # maggie_devices
-ROS packages for the devices of the Social Robot Maggie.
+ROS packages for the devices for the Social Robot Maggie.
