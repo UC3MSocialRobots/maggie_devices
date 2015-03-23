@@ -1,5 +1,5 @@
 /**
- * @file        test_primitives_labjack.cpp
+ * @file        gtest_labjack_node.cpp
  * @brief       Unit tests.
  *
  * @author      Raul Perula-Martinez <raul.perula@uc3m.es>
