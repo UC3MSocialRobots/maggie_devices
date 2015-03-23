@@ -132,17 +132,17 @@ int RfidNode::read_card()
                 set_data(read_tag_data(get_num_blocks()));
 
                 // publish data
-                ROS_INFO("[RFID_NODE] RFID id: %s", rfid_card.UID);
-                ROS_INFO("[RFID_NODE] RFID data (size: %d): %s", rfid_card.data.length, rfid_card.data.value);
+                ROS_INFO("[RFID_NODE] RFID id: %s", _rfid_card.UID);
+                ROS_INFO("[RFID_NODE] RFID data (size: %d): %s", _rfid_card.data.length, _rfid_card.data.value);
 
                 // fill the message
                 msg.header.stamp = ros::Time::now();
                 msg.header.frame_id = "/rfid";
-                for (int i = 0; i < strlen(rfid_card.UID); ++i) {
-                    msg.id.push_back(rfid_card.UID[i]);
+                for (int i = 0; i < strlen(_rfid_card.UID); ++i) {
+                    msg.id.push_back(_rfid_card.UID[i]);
                 }
-                for (int i = 0; i < strlen((char *) rfid_card.data.value); ++i) {
-                    msg.data.push_back(rfid_card.data.value[i]);
+                for (int i = 0; i < strlen((char *) _rfid_card.data.value); ++i) {
+                    msg.data.push_back(_rfid_card.data.value[i]);
                 }
 
                 _write_pub.publish(msg);
@@ -163,16 +163,9 @@ int RfidNode::read_card()
 
 //////////////////////////////////////////////////
 
-card_data RfidNode::get_data()
-{
-    return rfid_card;
-}
-
-//////////////////////////////////////////////////
-
 void RfidNode::set_data(card_data card)
 {
-    bcopy((const void*) &card, (void*) &rfid_card, sizeof(card_data));
+    bcopy((const void*) &card, (void*) &_rfid_card, sizeof(card_data));
 }
 
 //////////////////////////////////////////////////
@@ -193,12 +186,12 @@ card_data RfidNode::read_tag_data(int num_blocks)
         iterator += BLOCK_SIZE_HF;
     }
 
-    rfid_card.data.length = strlen((char*) data_aux);
+    _rfid_card.data.length = strlen((char*) data_aux);
 
     for (int i = 0; i < MAX_LENGTH; i++) {
-        rfid_card.data.value[i] = data_aux[i];
+        _rfid_card.data.value[i] = data_aux[i];
     }
-    ROS_DEBUG("[RFID_NODE] HF data read: %s", rfid_card.data.value);
+    ROS_DEBUG("[RFID_NODE] HF data read: %s", _rfid_card.data.value);
 
     // get the uid label
     string ID_aux = _rfid_driver->get_uid_label();
@@ -208,9 +201,9 @@ card_data RfidNode::read_tag_data(int num_blocks)
     ID_aux.copy(ID_tag, len, 0);
     ID_tag[len] = '\0';
 
-    strcpy(rfid_card.UID, ID_tag);
+    strcpy(_rfid_card.UID, ID_tag);
 
-    return rfid_card;
+    return _rfid_card;
 }
 
 //////////////////////////////////////////////////

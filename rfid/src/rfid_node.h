@@ -85,12 +85,6 @@ class RfidNode {
         int read_card();
 
         /**
-         * @brief Method to get the data from the struct.
-         * @return card_data Data in the struct.
-         */
-        card_data get_data();
-
-        /**
          * @brief Method to set the data in the struct.
          * @param card_data Data to set in the struct.
          */
@@ -126,7 +120,7 @@ class RfidNode {
         ros::Rate _publish_rate;
 
         RfidDriverInterface *_rfid_driver;
-        card_data rfid_card;
+        card_data _rfid_card;
 
         int _num_device;
 };
