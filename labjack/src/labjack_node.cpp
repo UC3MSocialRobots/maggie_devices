@@ -28,7 +28,9 @@
 //////////////////////////////////////////////////
 
 LabjackNode::LabjackNode(LabjackDriverInterface *ljdriver) :
-    _nh_private("~"), _publish_rate(10), _ljdriver(ljdriver)
+    _nh_private("~"),
+    _publish_rate(10),
+    _ljdriver(ljdriver)
 {
     long error = 0;
     bool connected = false;
@@ -148,10 +150,22 @@ t_ljdata LabjackNode::getAll()
     _labjack_data.DsState = stateDs;
     _labjack_data.IOsState = stateIOs;
 
-    long lines03[] = {0, 1, 2, 3};
-    long lines47[] = {4, 5, 6, 7};
-    float voltages03[] = {0, 0, 0, 0};
-    float voltages47[] = {0, 0, 0, 0};
+    long lines03[] = {0,
+                      1,
+                      2,
+                      3};
+    long lines47[] = {4,
+                      5,
+                      6,
+                      7};
+    float voltages03[] = {0,
+                          0,
+                          0,
+                          0};
+    float voltages47[] = {0,
+                          0,
+                          0,
+                          0};
     if ((error = _ljdriver->readAIs(4, lines03, voltages03)) != 0) {
         ROS_ERROR("[LABJACK] Error reading AI0..AI3 lines");
         voltages03[0] = voltages03[1] = voltages03[2] = voltages03[3] = -1;
@@ -366,10 +380,22 @@ float8 LabjackNode::getAIs()
 {
     float8 result;
 
-    long lines03[] = {0, 1, 2, 3};
-    long lines47[] = {4, 5, 6, 7};
-    float voltages03[] = {0, 0, 0, 0};
-    float voltages47[] = {0, 0, 0, 0};
+    long lines03[] = {0,
+                      1,
+                      2,
+                      3};
+    long lines47[] = {4,
+                      5,
+                      6,
+                      7};
+    float voltages03[] = {0,
+                          0,
+                          0,
+                          0};
+    float voltages47[] = {0,
+                          0,
+                          0,
+                          0};
 
     if (_ljdriver->readAIs(4, lines03, voltages03) != 0) {
         ROS_ERROR("[LABJACK] Error reading AI0..AI3 lines");
@@ -515,8 +541,8 @@ int LabjackNode::setState(int state)
     switch(state) {
         case basic_states_skill_msgs::States::SLEEP_STATE:
             ROS_INFO("[LABJACK] SLEEP STATE");
-            if (_ljdriver->writeIO(IO_ENABLE_BASE, DISABLE) != 0 || _ljdriver->writeIO(IO_ENABLE_OTHERS, DISABLE)
-                != 0) {
+            if (_ljdriver->writeIO(IO_ENABLE_BASE, DISABLE) != 0
+                || _ljdriver->writeIO(IO_ENABLE_OTHERS, DISABLE) != 0) {
                 ROS_ERROR("[LABJACK] Error in setState: changing state to SLEEP");
                 error = -1;
             }
@@ -558,8 +584,7 @@ int LabjackNode::enableBase(bool enable)
     int error = 0;
     long line_enable_base = ENABLE_BASE;
 
-    error = (enable) ?
-        clearStateIO(line_enable_base) : setStateIO(line_enable_base);
+    error = (enable) ? clearStateIO(line_enable_base) : setStateIO(line_enable_base);
 
     return error;
 }
@@ -571,8 +596,7 @@ int LabjackNode::enableBody(bool enable)
     int result = 0;
     long line_enable_body = ENABLE_BODY;
 
-    result = (enable) ?
-        clearStateIO(line_enable_body) : setStateIO(line_enable_body);
+    result = (enable) ? clearStateIO(line_enable_body) : setStateIO(line_enable_body);
 
     return result;
 }
@@ -669,8 +693,7 @@ bool LabjackNode::isPlugged()
         result = false;
     }
     else {
-        (v > 3.0) ?
-            result = true : result = false;
+        (v > 3.0) ? result = true : result = false;
     }
 
     return result;

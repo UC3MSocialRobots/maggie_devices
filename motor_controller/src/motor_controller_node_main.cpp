@@ -27,7 +27,9 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "motor_controller_node");
 
-    Mcdc3006sNode node;
+    MotorDriverInterface *mcdc3006s_driver = new Mcdc3006s();
+
+    MotorControllerNode node(mcdc3006s_driver);
 
     node.init();
     node.spin();

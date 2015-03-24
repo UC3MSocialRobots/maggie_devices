@@ -1,10 +1,10 @@
 /**
- * @file        mcdc3006s_node.cpp
+ * @file        motor_controller_node.cpp
  * @brief       Node for controlling the mcdc3006s motors (neck and arms).
  *
  * @author      Raul Perula-Martinez <raul.perula@uc3m.es>
  * @date        2015-02
- * @author      Javi F. Gorostiza <jgorosti@ing.uc3m.es<
+ * @author      Javi F. Gorostiza <jgorosti@ing.uc3m.es>
  * @date        2008-07
  *
  * @copyright   Copyright (C) 2015 University Carlos III of Madrid.
@@ -27,10 +27,10 @@
 
 //////////////////////////////////////////////////
 
-Mcdc3006sNode::Mcdc3006sNode() :
+MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
     _nh_private("~"),
     _publish_rate(10),
-    _RSd(-1)
+    _driver(driver)
 {
     // get ros params
 
@@ -115,48 +115,44 @@ Mcdc3006sNode::Mcdc3006sNode() :
     wr_sem_file.push_back('\0');
 
     // init the communication
-    if ((error = initCommunication(BAUDRATE, &wr_serial_device[0], &_RSd, &wr_sem_file[0], &_semID)) < 0) {
-        ROS_ERROR("[MOTOR_CONTROLLER] initCommunication with devices failed");
-        ROS_WARN("[MOTOR_CONTROLLER] baudrate=%d, RSd=%d, semID=%d, serialDevice=%s, semFile=%s", BAUDRATE, _RSd, _semID, _serial_device.c_str(), sem_file.c_str());
-        ROS_ERROR("[MOTOR_CONTROLLER] Error : %d\tRSd : %d", error, _RSd);
+    if ((error = _driver->init(BAUDRATE, &wr_serial_device[0], &wr_sem_file[0])) != 0) {
         exit(error);
     }
 }
 
 //////////////////////////////////////////////////
 
-Mcdc3006sNode::~Mcdc3006sNode()
+MotorControllerNode::~MotorControllerNode()
 {
-    disableDriver(_RSd, _semID);
-    endCommunication(_RSd, _semID);
+    _driver->disableDriver();
 }
 
 //////////////////////////////////////////////////
 
-void Mcdc3006sNode::init()
+void MotorControllerNode::init()
 {
     _data_msg = _nh_private.advertise<motor_controller_msgs::Data>("data_pub", 100);
     _odo_msg = _nh_private.advertise<motor_controller_msgs::Odometry>("odo_pub", 100);
 
-    _max_pos_srv = _nh_private.advertiseService("set_max_pos", &Mcdc3006sNode::set_max_pos, this);
-    _min_pos_srv = _nh_private.advertiseService("set_min_pos", &Mcdc3006sNode::set_min_pos, this);
-    _max_vel_srv = _nh_private.advertiseService("set_max_vel", &Mcdc3006sNode::set_max_vel, this);
-    _max_acc_srv = _nh_private.advertiseService("set_max_acc", &Mcdc3006sNode::set_max_acc, this);
-    _max_dec_srv = _nh_private.advertiseService("set_max_dec", &Mcdc3006sNode::set_max_dec, this);
-    _cur_lim_srv = _nh_private.advertiseService("set_cur_lim", &Mcdc3006sNode::set_cur_lim, this);
-    _odo_srv = _nh_private.advertiseService("set_odo", &Mcdc3006sNode::set_odometry_calibration, this);
+    _max_pos_srv = _nh_private.advertiseService("set_max_pos", &MotorControllerNode::set_max_pos, this);
+    _min_pos_srv = _nh_private.advertiseService("set_min_pos", &MotorControllerNode::set_min_pos, this);
+    _max_vel_srv = _nh_private.advertiseService("set_max_vel", &MotorControllerNode::set_max_vel, this);
+    _max_acc_srv = _nh_private.advertiseService("set_max_acc", &MotorControllerNode::set_max_acc, this);
+    _max_dec_srv = _nh_private.advertiseService("set_max_dec", &MotorControllerNode::set_max_dec, this);
+    _cur_lim_srv = _nh_private.advertiseService("set_cur_lim", &MotorControllerNode::set_cur_lim, this);
+    _odo_srv = _nh_private.advertiseService("set_odo", &MotorControllerNode::set_odometry_calibration, this);
 
-    _mov_abs_pos_srv = _nh_private.advertiseService("mov_abs_pos", &Mcdc3006sNode::move_abs_pos, this);
-    _mov_rel_pos_srv = _nh_private.advertiseService("mov_rel_pos", &Mcdc3006sNode::move_rel_pos, this);
-    _mov_vel_srv = _nh_private.advertiseService("mov_vel", &Mcdc3006sNode::move_vel, this);
+    _mov_abs_pos_srv = _nh_private.advertiseService("mov_abs_pos", &MotorControllerNode::move_abs_pos, this);
+    _mov_rel_pos_srv = _nh_private.advertiseService("mov_rel_pos", &MotorControllerNode::move_rel_pos, this);
+    _mov_vel_srv = _nh_private.advertiseService("mov_vel", &MotorControllerNode::move_vel, this);
 
     // driver enable
-    enableDriver(_RSd, _semID);
+    _driver->enableDriver();
 }
 
 //////////////////////////////////////////////////
 
-void Mcdc3006sNode::spin()
+void MotorControllerNode::spin()
 {
     while(_nh.ok()) {
         ros::spinOnce();
@@ -169,7 +165,7 @@ void Mcdc3006sNode::spin()
 
 //////////////////////////////////////////////////
 
-void Mcdc3006sNode::publish()
+void MotorControllerNode::publish()
 {
     motor_controller_msgs::Data msg_data;
     motor_controller_msgs::Odometry msg_odo;
@@ -183,8 +179,8 @@ void Mcdc3006sNode::publish()
     factor = (2. * M_PI) / joint_factor;
 
     // fill the message with positions
-    msg_data.max_pos = getDriverMaxPos(_RSd, _semID) * factor;
-    msg_data.min_pos = getDriverMinPos(_RSd, _semID) * factor;
+    msg_data.max_pos = _driver->getDriverMaxPos() * factor;
+    msg_data.min_pos = _driver->getDriverMinPos() * factor;
 
     if (_joint_name == NECK) {
         factor = (2. * M_PI) / _vel_factor / 60.;
@@ -194,10 +190,10 @@ void Mcdc3006sNode::publish()
     }
 
     // fill the message with the rest of data
-    msg_data.max_vel = getDriverMaxVel(_RSd, _semID) * factor;
-    msg_data.max_acc = getDriverMaxAcc(_RSd, _semID) * factor;
-    msg_data.max_dec = getDriverMaxDec(_RSd, _semID) * factor;
-    msg_data.max_cur_lim = getDriverCurLim(_RSd, _semID);
+    msg_data.max_vel = _driver->getDriverMaxVel() * factor;
+    msg_data.max_acc = _driver->getDriverMaxAcc() * factor;
+    msg_data.max_dec = _driver->getDriverMaxDec() * factor;
+    msg_data.max_cur_lim = _driver->getDriverCurLim();
 
     // publish general data
     _data_msg.publish(msg_data);
@@ -215,7 +211,7 @@ void Mcdc3006sNode::publish()
     vel_factor = (2. * M_PI) / joint_factor / 60.;
 
     // get odometry information from motor driver
-    getDriverSensor(_RSd, _semID, &dOdo);
+    _driver->getDriverSensor(&dOdo);
 
     // fill the message
     msg_odo.position = dOdo.p * pos_factor;
@@ -228,87 +224,87 @@ void Mcdc3006sNode::publish()
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_max_pos(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_pos(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
     /* from rad of the DOF to pulses of the engine */
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    setDriverMaxPos(_RSd, _semID, req.max_pos * factor);
+    _driver->setDriverMaxPos(req.max_pos * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_min_pos(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_min_pos(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    setDriverMinPos(_RSd, _semID, req.min_pos * factor);
+    _driver->setDriverMinPos(req.min_pos * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_max_vel(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_vel(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor * 60. / (2. * M_PI);
 
-    setDriverMaxVel(_RSd, _semID, req.max_vel * factor);
+    _driver->setDriverMaxVel(req.max_vel * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_max_acc(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_acc(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    setDriverMaxAcc(_RSd, _semID, req.max_acc * factor);
+    _driver->setDriverMaxAcc(req.max_acc * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_max_dec(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_dec(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    setDriverMaxDec(_RSd, _semID, req.max_dec * factor);
+    _driver->setDriverMaxDec(req.max_dec * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_cur_lim(motor_controller_msgs::Configuration::Request & req,
-                                motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_cur_lim(motor_controller_msgs::Configuration::Request & req,
+                                      motor_controller_msgs::Configuration::Response & resp)
 {
-    setDriverCurLim(_RSd, _semID, req.cur);
+    _driver->setDriverCurLim(req.cur);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::set_odometry_calibration(motor_controller_msgs::Configuration::Request & req,
-                                             motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_odometry_calibration(motor_controller_msgs::Configuration::Request & req,
+                                                   motor_controller_msgs::Configuration::Response & resp)
 {
     // neck
-    setDriverHomePosition(_RSd, _semID, req.home * _pos_factor / (2. * M_PI));
+    _driver->setDriverHomePosition(req.home * _pos_factor / (2. * M_PI));
     // arms
     //    return setDriverOdoCalibration(_RSd, _semID, home * TOTAL_ARMS_REDUCTION / (2. * M_PI));
 
@@ -321,46 +317,46 @@ bool Mcdc3006sNode::set_odometry_calibration(motor_controller_msgs::Configuratio
 // moves
 ////////////////////////
 
-bool Mcdc3006sNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                                 motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
+                                       motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveAbsPos RSd = %d\t semID = %d\t pos = %d\n", _RSd, _semID, req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveAbsPos pos = %d\n", req.position);
 
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    moveDriverAbsPos(_RSd, _semID, req.position * factor);
+    _driver->moveDriverAbsPos(req.position * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                                 motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Request & req,
+                                       motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveRelPos RSd = %d\t semID = %d\t pos = %d\n", _RSd, _semID, req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveRelPos pos = %d\n", req.position);
 
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    moveDriverRelPos(_RSd, _semID, req.position * factor);
+    _driver->moveDriverRelPos(req.position * factor);
 
     return true;
 }
 
 //////////////////////////////////////////////////
 
-bool Mcdc3006sNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
-                             motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
+                                   motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveVel RSd = %d\t semID = %d\t vel = %d\n", _RSd, _semID, req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveVel vel = %d\n", req.position);
 
     // change velocity from rad/sec to rpm
     long int joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION / PULSES_PER_REV);
     long int factor = joint_factor * 60. / (2. * M_PI);
 
-    moveDriverVel(_RSd, _semID, req.position * factor);
+    _driver->moveDriverVel(req.position * factor);
 
     return true;
 }

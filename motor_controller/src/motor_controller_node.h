@@ -2,12 +2,12 @@
 #define __MCDC3006S_NODE_H__
 
 /**
- * @file        mcdc3006s_node.h
+ * @file        motor_controller_node.h
  * @brief       Node for controlling the mcdc3006s motors (neck and arms).
  *
  * @author      Raul Perula-Martinez <raul.perula@uc3m.es>
  * @date        2015-02
- * @author      Javi F. Gorostiza <jgorosti@ing.uc3m.es<
+ * @author      Javi F. Gorostiza <jgorosti@ing.uc3m.es>
  * @date        2008-07
  * 
  * @copyright   Copyright (C) 2015 University Carlos III of Madrid.
@@ -31,7 +31,7 @@
 #include "motor_controller_data.h"
 
 // mcdc3006s driver
-#include "mcdc3006s/MCDC3006Slib/MCDC3006S.h"
+#include "mcdc3006s.h"
 
 // messages and services
 #include <motor_controller_msgs/Data.h>
@@ -39,17 +39,17 @@
 #include <motor_controller_msgs/Configuration.h>
 #include <motor_controller_msgs/MoveAbsPos.h>
 
-class Mcdc3006sNode {
+class MotorControllerNode {
     public:
         /**
          * @brief Empty constructor.
          */
-        Mcdc3006sNode();
+        MotorControllerNode(MotorDriverInterface *driver);
 
         /**
          * @brief Destructor.
          */
-        ~Mcdc3006sNode();
+        ~MotorControllerNode();
 
         /**
          * @brief Initialize the mcdc3006s node.
@@ -192,8 +192,9 @@ class Mcdc3006sNode {
         int _joint_id;
         std::string _serial_device, _joint_name;
 
-        int _RSd, _semID;
         int _pos_factor, _vel_factor;
+
+        MotorDriverInterface *_driver;
 };
 
 #endif
