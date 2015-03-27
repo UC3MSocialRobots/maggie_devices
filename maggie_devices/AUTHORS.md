@@ -1,6 +1,6 @@
 # Authors and Contributors
 
-maggie_devices was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
+maggie_devices metapackage was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
 
 ### Current Team
 
