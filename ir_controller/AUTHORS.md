@@ -1,4 +1,6 @@
-# ir_controller was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
+# Authors and Contributors
+
+ir_controller package was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
 
 ### Current Team
 

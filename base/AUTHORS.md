@@ -1,4 +1,6 @@
-# base was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
+# Authors and Contributors
+
+base package was designed and developed by the Social Robots Group at Robotics Lab, UC3M (Spain).
 
 ### Current Team
 
