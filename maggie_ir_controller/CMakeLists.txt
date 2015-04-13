@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ir_controller)
+project(maggie_ir_controller)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS maggie_ir_controller_msgs maggie_ir_drivers roscpp)

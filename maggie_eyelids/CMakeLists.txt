@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(eyelids)
+project(maggie_eyelids)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS maggie_eyelids_msgs maggie_motor_controller_msgs maggie_serial_comm_drivers roscpp)

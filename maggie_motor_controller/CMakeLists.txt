@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(motor_controller)
+project(maggie_motor_controller)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS maggie_motor_controller_msgs maggie_motor_drivers roscpp)

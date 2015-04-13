@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(labjack)
+project(maggie_labjack)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs maggie_labjack_drivers roscpp)

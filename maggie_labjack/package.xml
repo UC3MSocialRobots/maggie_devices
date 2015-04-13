@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>labjack</name>
+    <name>maggie_labjack</name>
     <version>0.0.1</version>
     <description>
         labjack node

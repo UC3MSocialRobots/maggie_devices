@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>motor_controller</name>
+    <name>maggie_motor_controller</name>
     <version>0.0.1</version>
     <description>
         motor_controller node

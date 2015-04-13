@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(base)
+project(maggie_base)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS roscpp tf nav_msgs)
