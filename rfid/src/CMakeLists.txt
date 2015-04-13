@@ -3,7 +3,7 @@ add_library(rfid_node
 target_link_libraries(rfid_node
                       rfid_driver_wrapper ${catkin_LIBRARIES})
 add_dependencies(rfid_node
-                 ${rfid_msgs_EXPORTED_TARGETS})
+                 ${maggie_rfid_msgs_EXPORTED_TARGETS})
 
 add_executable(rfid_node_main.exe
                rfid_node_main.cpp)

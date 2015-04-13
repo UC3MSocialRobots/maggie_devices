@@ -3,7 +3,7 @@ add_library(ir_controller_node
 target_link_libraries(ir_controller_node
                       irtrans_wrapper ${catkin_LIBRARIES})
 add_dependencies(ir_controller_node
-                 ${ir_controller_msgs_EXPORTED_TARGETS})
+                 ${maggie_ir_controller_msgs_EXPORTED_TARGETS})
 
 add_executable(ir_controller_node_main.exe
                ir_controller_node_main.cpp ${catkin_LIBRARIES})

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(rfid)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS rfid_msgs maggie_rfid_drivers roscpp)
+find_package(catkin REQUIRED COMPONENTS maggie_rfid_msgs maggie_rfid_drivers roscpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS rfid_msgs maggie_rfid_drivers roscpp)
 catkin_package(
     INCLUDE_DIRS src
     CATKIN_DEPENDS roscpp
-    DEPENDS rfid_msgs maggie_rfid_drivers
+    DEPENDS maggie_rfid_msgs maggie_rfid_drivers
 )
 
 ###########

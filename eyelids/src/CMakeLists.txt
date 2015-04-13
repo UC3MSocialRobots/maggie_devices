@@ -3,7 +3,7 @@ add_library(eyelids_node
 target_link_libraries(eyelids_node
                       serial_communication ${catkin_LIBRARIES})
 add_dependencies(eyelids_node
-                 ${eyelids_msgs_EXPORTED_TARGETS})
+                 ${maggie_eyelids_msgs_EXPORTED_TARGETS})
 
 add_executable(eyelids_node_main.exe
                eyelids_node_main.cpp)

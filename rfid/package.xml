@@ -34,7 +34,7 @@
     <exec_depend>roscpp</exec_depend>
 
     <!-- Social Robots packages dependencies -->
-    <depend>rfid_msgs</depend>
+    <depend>maggie_rfid_msgs</depend>
     <depend>maggie_rfid_drivers</depend>
 
     <!-- tests dependencies -->

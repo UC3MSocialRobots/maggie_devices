@@ -34,7 +34,7 @@
     <exec_depend>roscpp</exec_depend>
 
     <!-- Social Robots packages dependencies -->
-    <depend>ir_controller_msgs</depend>
+    <depend>maggie_ir_controller_msgs</depend>
     <depend>maggie_ir_drivers</depend>
 
     <!-- tests dependencies -->

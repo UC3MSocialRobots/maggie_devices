@@ -35,7 +35,7 @@
 
     <!-- Social Robots packages dependencies -->
     <depend>maggie_motor_drivers</depend>
-    <depend>motor_controller_msgs</depend>
+    <depend>maggie_motor_controller_msgs</depend>
 
     <!-- tests dependencies -->
     <test_depend>gtest</test_depend>
