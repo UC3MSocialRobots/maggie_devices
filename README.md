@@ -4,13 +4,13 @@ GitHub repository for the devices for the Social Robot Maggie.
 
 ## CONTENT
 
-- `base`: a ROS package with the node to control motors of the mobile base.
-- `eyelids`: a ROS package with the node to control the servomotors to move the eyelids.
-- `ir_controller`: a ROS package with the node to control the IR controller for a TV.
-- `labjack`: a ROS package with the node to control the analog and digital I/O. Get the information about the batteries, the touch sensors, and the emergency bumpers.
+- `maggie_base`: a ROS package with the node to control motors of the mobile base.
+- `maggie_eyelids`: a ROS package with the node to control the servomotors to move the eyelids.
+- `maggie_ir_controller`: a ROS package with the node to control the IR controller for a TV.
+- `maggie_labjack`: a ROS package with the node to control the analog and digital I/O. Get the information about the batteries, the touch sensors, and the emergency bumpers.
 - `maggie_devices`: a ROS metapackage.
-- `motor_controller`: a ROS package with the node to control the motors for the neck and the arms.
-- `rfid`: a ROS package with the node to control the RFID reader.
+- `maggie_motor_controller`: a ROS package with the node to control the motors for the neck and the arms.
+- `maggie_rfid`: a ROS package with the node to control the RFID reader.
 
 ## LICENSE
 

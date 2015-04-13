@@ -1,4 +1,4 @@
-# rfid
+# maggie_rfid
 
 ROS package for the RFID device of the Social Robot Maggie.
 

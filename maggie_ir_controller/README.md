@@ -1,4 +1,4 @@
-# ir_controller
+# maggie_ir_controller
 
 ROS package for the IR controller device of the Social Robot Maggie.
 
