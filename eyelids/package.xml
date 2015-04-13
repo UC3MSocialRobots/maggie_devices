@@ -36,7 +36,7 @@
     <!-- Social Robots packages dependencies -->
     <depend>eyelids_msgs</depend>
     <depend>motor_controller_msgs</depend>
-    <depend>serial_comm_drivers</depend>
+    <depend>maggie_serial_comm_drivers</depend>
 
     <!-- tests dependencies -->
     <test_depend>gtest</test_depend>

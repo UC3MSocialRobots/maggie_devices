@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(ir_controller)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS ir_controller_msgs ir_drivers roscpp)
+find_package(catkin REQUIRED COMPONENTS ir_controller_msgs maggie_ir_drivers roscpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS ir_controller_msgs ir_drivers roscpp)
 catkin_package(
   INCLUDE_DIRS src
   CATKIN_DEPENDS roscpp
-  DEPENDS ir_controller_msgs ir_drivers
+  DEPENDS ir_controller_msgs maggie_ir_drivers
 )
 
 ###########
@@ -24,6 +24,7 @@ catkin_package(
 include_directories(
   include src
   ${catkin_INCLUDE_DIRS}
+  ${maggie_ir_drivers_INCLUDE_DIRS}
   /usr/local/include/irtrans
 )
 

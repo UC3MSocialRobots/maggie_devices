@@ -35,7 +35,7 @@
 
     <!-- Social Robots packages dependencies -->
     <depend>ir_controller_msgs</depend>
-    <depend>ir_drivers</depend>
+    <depend>maggie_ir_drivers</depend>
 
     <!-- tests dependencies -->
     <test_depend>gtest</test_depend>

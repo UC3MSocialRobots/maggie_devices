@@ -35,7 +35,7 @@
 
     <!-- Social Robots packages dependencies -->
     <depend>rfid_msgs</depend>
-    <depend>rfid_drivers</depend>
+    <depend>maggie_rfid_drivers</depend>
 
     <!-- tests dependencies -->
     <test_depend>gtest</test_depend>

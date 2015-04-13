@@ -37,7 +37,7 @@
     <depend>basic_states_skill_msgs</depend>
     <depend>batteries_skill_msgs</depend>
     <depend>touch_skill_msgs</depend>
-    <depend>labjack_drivers</depend>
+    <depend>maggie_labjack_drivers</depend>
 
     <!-- tests dependencies -->
     <test_depend>gtest</test_depend>

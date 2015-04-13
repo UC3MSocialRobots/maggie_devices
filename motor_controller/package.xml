@@ -34,7 +34,7 @@
     <exec_depend>roscpp</exec_depend>
 
     <!-- Social Robots packages dependencies -->
-    <depend>motor_drivers</depend>
+    <depend>maggie_motor_drivers</depend>
     <depend>motor_controller_msgs</depend>
 
     <!-- tests dependencies -->

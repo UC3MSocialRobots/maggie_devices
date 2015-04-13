@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(labjack)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs labjack_drivers roscpp)
+find_package(catkin REQUIRED COMPONENTS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs maggie_labjack_drivers roscpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS basic_states_skill_msgs batteries_skill_
 catkin_package(
   INCLUDE_DIRS src
   CATKIN_DEPENDS roscpp
-  DEPENDS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs labjack_drivers
+  DEPENDS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs maggie_labjack_drivers
 )
 
 ###########
@@ -22,6 +22,7 @@ catkin_package(
 include_directories(
   include src
   ${catkin_INCLUDE_DIRS}
+  ${maggie_labjack_drivers_INCLUDE_DIRS}
 )
 
 add_subdirectory(src)

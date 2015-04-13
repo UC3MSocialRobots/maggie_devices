@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(motor_controller)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS motor_drivers motor_controller_msgs roscpp)
+find_package(catkin REQUIRED COMPONENTS motor_controller_msgs maggie_motor_drivers roscpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS motor_drivers motor_controller_msgs rosc
 catkin_package(
   INCLUDE_DIRS src
   CATKIN_DEPENDS roscpp
-  DEPENDS motor_drivers motor_controller_msgs
+  DEPENDS motor_controller_msgs maggie_motor_drivers
 )
 
 ###########
@@ -24,6 +24,7 @@ catkin_package(
 include_directories(
   include src
   ${catkin_INCLUDE_DIRS}
+  ${maggie_motor_drivers_INCLUDE_DIRS}
 )
 
 add_subdirectory(src)
