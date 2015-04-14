@@ -65,6 +65,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
 
                 _pos_factor = TOTAL_NECK_HOR_REDUCTION;
                 _vel_factor = NECK_HOR_REDUCTION_FACTOR;
+                _calibration_home = NECK_HOR_HOME_POS;
 
                 ROS_INFO("[MOTOR_CONTROLLER] Neck: Horizontal joint chosen. factor_position = %d\n", _pos_factor);
                 break;
@@ -74,6 +75,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
 
                 _pos_factor = TOTAL_NECK_VER_REDUCTION;
                 _vel_factor = NECK_VER_REDUCTION_FACTOR;
+                _calibration_home = NECK_VER_HOME_POS;
 
                 ROS_INFO("[MOTOR_CONTROLLER] Neck: Vertical joint chosen. factor_position = %d\n", _pos_factor);
                 break;
@@ -140,11 +142,12 @@ void MotorControllerNode::init()
     _max_acc_srv = _nh_private.advertiseService("set_max_acc", &MotorControllerNode::set_max_acc, this);
     _max_dec_srv = _nh_private.advertiseService("set_max_dec", &MotorControllerNode::set_max_dec, this);
     _cur_lim_srv = _nh_private.advertiseService("set_cur_lim", &MotorControllerNode::set_cur_lim, this);
-    _odo_srv = _nh_private.advertiseService("set_odo", &MotorControllerNode::set_odometry_calibration, this);
 
     _mov_abs_pos_srv = _nh_private.advertiseService("mov_abs_pos", &MotorControllerNode::move_abs_pos, this);
     _mov_rel_pos_srv = _nh_private.advertiseService("mov_rel_pos", &MotorControllerNode::move_rel_pos, this);
     _mov_vel_srv = _nh_private.advertiseService("mov_vel", &MotorControllerNode::move_vel, this);
+    
+    _calibration_srv = _nh_private.advertiseService("joint_calibration", &MotorControllerNode::joint_calibration, this);
 
     // driver enable
     _driver->enableDriver();
@@ -298,20 +301,6 @@ bool MotorControllerNode::set_cur_lim(motor_controller_msgs::Configuration::Requ
     return true;
 }
 
-//////////////////////////////////////////////////
-
-bool MotorControllerNode::set_odometry_calibration(motor_controller_msgs::Configuration::Request & req,
-                                                   motor_controller_msgs::Configuration::Response & resp)
-{
-    // neck
-    _driver->setDriverHomePosition(req.home * _pos_factor / (2. * M_PI));
-    // arms
-    //    return setDriverOdoCalibration(_RSd, _semID, home * TOTAL_ARMS_REDUCTION / (2. * M_PI));
-
-    return true;
-}
-
-//////////////////////////////////////////////////
 
 ////////////////////////
 // moves
@@ -320,12 +309,12 @@ bool MotorControllerNode::set_odometry_calibration(motor_controller_msgs::Config
 bool MotorControllerNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
                                        motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveAbsPos pos = %d\n", req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveAbsPos pos = %f\n", req.position);
 
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    _driver->moveDriverAbsPos(req.position * factor);
+    _driver->moveDriverAbsPos(int(req.position * factor));
 
     return true;
 }
@@ -335,12 +324,12 @@ bool MotorControllerNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Reques
 bool MotorControllerNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Request & req,
                                        motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveRelPos pos = %d\n", req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveRelPos pos = %f\n", req.position);
 
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    _driver->moveDriverRelPos(req.position * factor);
+    _driver->moveDriverRelPos(int(req.position * factor));
 
     return true;
 }
@@ -350,15 +339,33 @@ bool MotorControllerNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Reques
 bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
                                    motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-    ROS_DEBUG("[MOTOR_CONTROLLER] moveVel vel = %d\n", req.position);
+    ROS_DEBUG("[MOTOR_CONTROLLER] moveVel vel = %f\n", req.position);
 
     // change velocity from rad/sec to rpm
     long int joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION / PULSES_PER_REV);
     long int factor = joint_factor * 60. / (2. * M_PI);
 
-    _driver->moveDriverVel(req.position * factor);
+    _driver->moveDriverVel(int(req.position * factor));
 
     return true;
 }
 
 //////////////////////////////////////////////////
+
+bool MotorControllerNode::joint_calibration(motor_controller_msgs::Calibration::Request & req,
+										   motor_controller_msgs::Calibration::Response & resp)
+{
+	
+		ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
+		
+		long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
+		long int factor = joint_factor / (2. * M_PI);
+
+		_driver->calibrateDriver(int( _calibration_home * factor));
+		
+		return true;
+}
+
+//////////////////////////////////////////////////
+						   
+										

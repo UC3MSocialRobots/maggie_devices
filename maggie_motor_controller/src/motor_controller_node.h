@@ -38,6 +38,8 @@
 #include <motor_controller_msgs/Odometry.h>
 #include <motor_controller_msgs/Configuration.h>
 #include <motor_controller_msgs/MoveAbsPos.h>
+#include <motor_controller_msgs/Calibration.h>
+
 
 class MotorControllerNode {
     public:
@@ -129,15 +131,6 @@ class MotorControllerNode {
                          motor_controller_msgs::Configuration::Response & resp);
 
         /**
-         * @brief Callback to set the odometry calibration of the motor.
-         * @param req Configuration type request.
-         * @param resp Configuration type response.
-         * @return true if there are no errors.
-         */
-        bool set_odometry_calibration(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp);
-
-        /**
          * @brief Callback to move motors by absolute position.
          * @param req MoveAbsPos type request.
          * @param resp MoveAbsPos type response.
@@ -164,6 +157,15 @@ class MotorControllerNode {
         bool move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
                       motor_controller_msgs::MoveAbsPos::Response & resp);
 
+		/**
+         * @brief Callback to calibrate the joint.
+         * @param req Calibration type request.
+         * @param resp Calibration type response.
+         * @return true if there are no errors.
+         */
+        bool joint_calibration(motor_controller_msgs::Calibration::Request & req,
+						       motor_controller_msgs::Calibration::Response & resp);
+                      
     private:
         // nodes
         ros::NodeHandle _nh;
@@ -184,6 +186,7 @@ class MotorControllerNode {
         ros::ServiceServer _mov_abs_pos_srv;
         ros::ServiceServer _mov_rel_pos_srv;
         ros::ServiceServer _mov_vel_srv;
+        ros::ServiceServer _calibration_srv;
 
         // spin rate
         ros::Rate _publish_rate;
@@ -193,6 +196,7 @@ class MotorControllerNode {
         std::string _serial_device, _joint_name;
 
         int _pos_factor, _vel_factor;
+        float _calibration_home;
 
         MotorDriverInterface *_driver;
 };
