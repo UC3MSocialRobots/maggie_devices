@@ -34,10 +34,10 @@
 #include "mcdc3006s.h"
 
 // messages and services
-#include <motor_controller_msgs/Data.h>
-#include <motor_controller_msgs/Odometry.h>
-#include <motor_controller_msgs/Configuration.h>
-#include <motor_controller_msgs/MoveAbsPos.h>
+#include <maggie_motor_controller_msgs/Data.h>
+#include <maggie_motor_controller_msgs/Odometry.h>
+#include <maggie_motor_controller_msgs/Configuration.h>
+#include <maggie_motor_controller_msgs/MoveAbsPos.h>
 
 
 
@@ -82,8 +82,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_max_pos(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_max_pos(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to set the minimum position of the motor.
@@ -91,8 +91,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_min_pos(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_min_pos(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to set the maximum velocity of the motor.
@@ -100,8 +100,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_max_vel(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_max_vel(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to set the maximum acceleration of the motor.
@@ -109,8 +109,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_max_acc(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_max_acc(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to set the maximum deceleration of the motor.
@@ -118,8 +118,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_max_dec(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_max_dec(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to set the current limit of the motor.
@@ -127,8 +127,8 @@ class MotorControllerNode {
          * @param resp Configuration type response.
          * @return true if there are no errors.
          */
-        bool set_cur_lim(motor_controller_msgs::Configuration::Request & req,
-                         motor_controller_msgs::Configuration::Response & resp);
+        bool set_cur_lim(maggie_motor_controller_msgs::Configuration::Request & req,
+                         maggie_motor_controller_msgs::Configuration::Response & resp);
 
         /**
          * @brief Callback to move motors by absolute position.
@@ -136,8 +136,8 @@ class MotorControllerNode {
          * @param resp MoveAbsPos type response.
          * @return true if there are no errors.
          */
-        bool move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                          motor_controller_msgs::MoveAbsPos::Response & resp);
+        bool move_abs_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                          maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
 
         /**
          * @brief Callback to move motors by relative position.
@@ -145,8 +145,8 @@ class MotorControllerNode {
          * @param resp MoveAbsPos type response.
          * @return true if there are no errors.
          */
-        bool move_rel_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                          motor_controller_msgs::MoveAbsPos::Response & resp);
+        bool move_rel_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                          maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
 
         /**
          * @brief Callback to move motors in velocity.
@@ -154,8 +154,8 @@ class MotorControllerNode {
          * @param resp MoveAbsPos type response.
          * @return true if there are no errors.
          */
-        bool move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
-                      motor_controller_msgs::MoveAbsPos::Response & resp);
+        bool move_vel(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                      maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
 
 		/**
          * @brief Callback to calibrate the joint.
@@ -163,8 +163,8 @@ class MotorControllerNode {
          * @param resp Calibration type response.
          * @return true if there are no errors.
          */
-        bool joint_calibration(motor_controller_msgs::MoveAbsPos::Request & req,
-                      motor_controller_msgs::MoveAbsPos::Response & resp);
+        bool joint_calibration(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                      maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
                       
     private:
         // nodes

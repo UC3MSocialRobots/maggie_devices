@@ -133,8 +133,8 @@ MotorControllerNode::~MotorControllerNode()
 
 void MotorControllerNode::init()
 {
-    _data_msg = _nh_private.advertise<motor_controller_msgs::Data>("data_pub", 100);
-    _odo_msg = _nh_private.advertise<motor_controller_msgs::Odometry>("odo_pub", 100);
+    _data_msg = _nh_private.advertise<maggie_motor_controller_msgs::Data>("data_pub", 100);
+    _odo_msg = _nh_private.advertise<maggie_motor_controller_msgs::Odometry>("odo_pub", 100);
 
     _max_pos_srv = _nh_private.advertiseService("set_max_pos", &MotorControllerNode::set_max_pos, this);
     _min_pos_srv = _nh_private.advertiseService("set_min_pos", &MotorControllerNode::set_min_pos, this);
@@ -170,8 +170,8 @@ void MotorControllerNode::spin()
 
 void MotorControllerNode::publish()
 {
-    motor_controller_msgs::Data msg_data;
-    motor_controller_msgs::Odometry msg_odo;
+    maggie_motor_controller_msgs::Data msg_data;
+    maggie_motor_controller_msgs::Odometry msg_odo;
     double factor;
     double joint_factor;
 
@@ -227,8 +227,8 @@ void MotorControllerNode::publish()
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_max_pos(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_pos(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     /* from rad of the DOF to pulses of the engine */
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
@@ -241,8 +241,8 @@ bool MotorControllerNode::set_max_pos(motor_controller_msgs::Configuration::Requ
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_min_pos(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_min_pos(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
@@ -254,8 +254,8 @@ bool MotorControllerNode::set_min_pos(motor_controller_msgs::Configuration::Requ
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_max_vel(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_vel(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor * 60. / (2. * M_PI);
@@ -267,8 +267,8 @@ bool MotorControllerNode::set_max_vel(motor_controller_msgs::Configuration::Requ
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_max_acc(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_acc(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
@@ -280,8 +280,8 @@ bool MotorControllerNode::set_max_acc(motor_controller_msgs::Configuration::Requ
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_max_dec(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_max_dec(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
@@ -293,8 +293,8 @@ bool MotorControllerNode::set_max_dec(motor_controller_msgs::Configuration::Requ
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::set_cur_lim(motor_controller_msgs::Configuration::Request & req,
-                                      motor_controller_msgs::Configuration::Response & resp)
+bool MotorControllerNode::set_cur_lim(maggie_motor_controller_msgs::Configuration::Request & req,
+                                      maggie_motor_controller_msgs::Configuration::Response & resp)
 {
     _driver->setDriverCurLim(req.cur);
 
@@ -306,8 +306,8 @@ bool MotorControllerNode::set_cur_lim(motor_controller_msgs::Configuration::Requ
 // moves
 ////////////////////////
 
-bool MotorControllerNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                                       motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_abs_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                                       maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
     ROS_DEBUG("[MOTOR_CONTROLLER] moveAbsPos pos = %f\n", req.position);
 
@@ -321,8 +321,8 @@ bool MotorControllerNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Reques
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                                       motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_rel_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                                       maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
     ROS_DEBUG("[MOTOR_CONTROLLER] moveRelPos pos = %f\n", req.position);
 
@@ -336,8 +336,8 @@ bool MotorControllerNode::move_rel_pos(motor_controller_msgs::MoveAbsPos::Reques
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & req,
-                                   motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::move_vel(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                                   maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
     ROS_DEBUG("[MOTOR_CONTROLLER] moveVel vel = %f\n", req.position);
 
@@ -352,8 +352,8 @@ bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & 
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::joint_calibration(motor_controller_msgs::MoveAbsPos::Request & req,
-                                   motor_controller_msgs::MoveAbsPos::Response & resp)
+bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                                   		maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
 	
 		ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
