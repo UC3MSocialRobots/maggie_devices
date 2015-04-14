@@ -352,8 +352,8 @@ bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & 
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::joint_calibration(motor_controller_msgs::Calibration::Request & req,
-										   motor_controller_msgs::Calibration::Response & resp)
+bool MotorControllerNode::joint_calibrationmotor_controller_msgs::MoveAbsPos::Request & req,
+                                   motor_controller_msgs::MoveAbsPos::Response & resp)
 {
 	
 		ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");

@@ -38,7 +38,7 @@
 #include <motor_controller_msgs/Odometry.h>
 #include <motor_controller_msgs/Configuration.h>
 #include <motor_controller_msgs/MoveAbsPos.h>
-#include <motor_controller_msgs/Calibration.h>
+
 
 
 class MotorControllerNode {
@@ -163,8 +163,8 @@ class MotorControllerNode {
          * @param resp Calibration type response.
          * @return true if there are no errors.
          */
-        bool joint_calibration(motor_controller_msgs::Calibration::Request & req,
-						       motor_controller_msgs::Calibration::Response & resp);
+        bool joint_calibration(motor_controller_msgs::MoveAbsPos::Request & req,
+                      motor_controller_msgs::MoveAbsPos::Response & resp);
                       
     private:
         // nodes
