@@ -2,7 +2,7 @@
     <arg name="robot" />
     <group ns="$(arg robot)">
         <!-- HF reader (base) -->
-        <node name="hf_rfid_reader" pkg="maggie_rfid" type="rfid_node_main.exe" output="screen">
+        <node name="hf_rfid_reader" pkg="rfid" type="rfid_node_main.exe" output="screen">
             <param name="num_device" type="int" value="216135657" />
         </node>
     </group>

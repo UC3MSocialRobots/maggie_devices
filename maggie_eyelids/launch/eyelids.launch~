@@ -2,13 +2,13 @@
 	<arg name="robot" />
 	<group ns="$(arg robot)">
         <!-- left eye -->
-		<node name="eyelid_left" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
+		<node name="eyelid_left" pkg="eyelids" type="eyelids_node_main.exe" output="screen">
 			<param name="port" type="string" value="eyelids" />
             <param name="side" type="string" value="left" />
 		</node>
         
         <!-- right eye -->
-		<node name="eyelid_right" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
+		<node name="eyelid_right" pkg="eyelids" type="eyelids_node_main.exe" output="screen">
 			<param name="port" type="string" value="eyelids" />
             <param name="side" type="string" value="right" />
 		</node>
