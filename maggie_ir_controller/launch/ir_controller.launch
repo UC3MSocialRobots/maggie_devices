@@ -2,7 +2,7 @@
     <arg name="robot" />
     <group ns="$(arg robot)">
         <!-- irserver (third party) -->
-        <node name="foo" pkg="ir_drivers" type="irserver.sh" output="screen" />
+        <node name="foo" pkg="maggie_ir_drivers" type="irserver.sh" output="screen" />
 
         <node name="ir_controller" pkg="maggie_ir_controller" type="ir_controller_node_main.exe" output="screen" />
     </group>
