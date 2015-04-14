@@ -352,7 +352,7 @@ bool MotorControllerNode::move_vel(motor_controller_msgs::MoveAbsPos::Request & 
 
 //////////////////////////////////////////////////
 
-bool MotorControllerNode::joint_calibrationmotor_controller_msgs::MoveAbsPos::Request & req,
+bool MotorControllerNode::joint_calibration(motor_controller_msgs::MoveAbsPos::Request & req,
                                    motor_controller_msgs::MoveAbsPos::Response & resp)
 {
 	
