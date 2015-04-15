@@ -126,7 +126,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
 
 MotorControllerNode::~MotorControllerNode()
 {
-    _driver->disableDriver();
+    _driver->disable_driver();
 }
 
 //////////////////////////////////////////////////
@@ -146,11 +146,11 @@ void MotorControllerNode::init()
     _mov_abs_pos_srv = _nh_private.advertiseService("mov_abs_pos", &MotorControllerNode::move_abs_pos, this);
     _mov_rel_pos_srv = _nh_private.advertiseService("mov_rel_pos", &MotorControllerNode::move_rel_pos, this);
     _mov_vel_srv = _nh_private.advertiseService("mov_vel", &MotorControllerNode::move_vel, this);
-    
+
     _calibration_srv = _nh_private.advertiseService("joint_calibration", &MotorControllerNode::joint_calibration, this);
 
     // driver enable
-    _driver->enableDriver();
+    _driver->enable_driver();
 }
 
 //////////////////////////////////////////////////
@@ -182,8 +182,8 @@ void MotorControllerNode::publish()
     factor = (2. * M_PI) / joint_factor;
 
     // fill the message with positions
-    msg_data.max_pos = _driver->getDriverMaxPos() * factor;
-    msg_data.min_pos = _driver->getDriverMinPos() * factor;
+    msg_data.max_pos = _driver->get_max_pos() * factor;
+    msg_data.min_pos = _driver->get_min_pos() * factor;
 
     if (_joint_name == NECK) {
         factor = (2. * M_PI) / _vel_factor / 60.;
@@ -193,10 +193,10 @@ void MotorControllerNode::publish()
     }
 
     // fill the message with the rest of data
-    msg_data.max_vel = _driver->getDriverMaxVel() * factor;
-    msg_data.max_acc = _driver->getDriverMaxAcc() * factor;
-    msg_data.max_dec = _driver->getDriverMaxDec() * factor;
-    msg_data.max_cur_lim = _driver->getDriverCurLim();
+    msg_data.max_vel = _driver->get_max_vel() * factor;
+    msg_data.max_acc = _driver->get_max_acc() * factor;
+    msg_data.max_dec = _driver->get_max_dec() * factor;
+    msg_data.max_cur_lim = _driver->get_cur_lim();
 
     // publish general data
     _data_msg.publish(msg_data);
@@ -214,7 +214,7 @@ void MotorControllerNode::publish()
     vel_factor = (2. * M_PI) / joint_factor / 60.;
 
     // get odometry information from motor driver
-    _driver->getDriverSensor(&dOdo);
+    _driver->get_sensor(&dOdo);
 
     // fill the message
     msg_odo.position = dOdo.p * pos_factor;
@@ -234,7 +234,7 @@ bool MotorControllerNode::set_max_pos(maggie_motor_controller_msgs::Configuratio
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    _driver->setDriverMaxPos(req.max_pos * factor);
+    _driver->set_max_pos(req.max_pos * factor);
 
     return true;
 }
@@ -247,7 +247,7 @@ bool MotorControllerNode::set_min_pos(maggie_motor_controller_msgs::Configuratio
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    _driver->setDriverMinPos(req.min_pos * factor);
+    _driver->set_min_pos(req.min_pos * factor);
 
     return true;
 }
@@ -260,7 +260,7 @@ bool MotorControllerNode::set_max_vel(maggie_motor_controller_msgs::Configuratio
     double joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor * 60. / (2. * M_PI);
 
-    _driver->setDriverMaxVel(req.max_vel * factor);
+    _driver->set_max_vel(req.max_vel * factor);
 
     return true;
 }
@@ -273,7 +273,7 @@ bool MotorControllerNode::set_max_acc(maggie_motor_controller_msgs::Configuratio
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    _driver->setDriverMaxAcc(req.max_acc * factor);
+    _driver->set_max_acc(req.max_acc * factor);
 
     return true;
 }
@@ -286,7 +286,7 @@ bool MotorControllerNode::set_max_dec(maggie_motor_controller_msgs::Configuratio
     double joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     double factor = joint_factor / (2. * M_PI);
 
-    _driver->setDriverMaxDec(req.max_dec * factor);
+    _driver->set_max_dec(req.max_dec * factor);
 
     return true;
 }
@@ -296,11 +296,10 @@ bool MotorControllerNode::set_max_dec(maggie_motor_controller_msgs::Configuratio
 bool MotorControllerNode::set_cur_lim(maggie_motor_controller_msgs::Configuration::Request & req,
                                       maggie_motor_controller_msgs::Configuration::Response & resp)
 {
-    _driver->setDriverCurLim(req.cur);
+    _driver->set_cur_lim(req.cur);
 
     return true;
 }
-
 
 ////////////////////////
 // moves
@@ -314,7 +313,7 @@ bool MotorControllerNode::move_abs_pos(maggie_motor_controller_msgs::MoveAbsPos:
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    _driver->moveDriverAbsPos(int(req.position * factor));
+    _driver->move_abs_pos(int(req.position * factor));
 
     return true;
 }
@@ -329,7 +328,7 @@ bool MotorControllerNode::move_rel_pos(maggie_motor_controller_msgs::MoveAbsPos:
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
 
-    _driver->moveDriverRelPos(int(req.position * factor));
+    _driver->move_rel_pos(int(req.position * factor));
 
     return true;
 }
@@ -345,7 +344,7 @@ bool MotorControllerNode::move_vel(maggie_motor_controller_msgs::MoveAbsPos::Req
     long int joint_factor = (_joint_name == NECK ? _vel_factor : TOTAL_ARMS_REDUCTION / PULSES_PER_REV);
     long int factor = joint_factor * 60. / (2. * M_PI);
 
-    _driver->moveDriverVel(int(req.position * factor));
+    _driver->move_vel(int(req.position * factor));
 
     return true;
 }
@@ -353,19 +352,18 @@ bool MotorControllerNode::move_vel(maggie_motor_controller_msgs::MoveAbsPos::Req
 //////////////////////////////////////////////////
 
 bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
-                                   		maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
+                                            maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
-	
-		ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
-		
-		long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
-		long int factor = joint_factor / (2. * M_PI);
 
-		_driver->calibrateDriver(int( _calibration_home * factor));
-		
-		return true;
+    ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
+
+    long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
+    long int factor = joint_factor / (2. * M_PI);
+
+    _driver->calibrate(int(_calibration_home * factor));
+
+    return true;
 }
 
 //////////////////////////////////////////////////
-						   
-										
+
