@@ -354,6 +354,7 @@ bool MotorControllerNode::move_vel(maggie_motor_controller_msgs::MoveAbsPos::Req
 bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
                                             maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
+<<<<<<< HEAD
 
     ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
 
@@ -363,6 +364,19 @@ bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAb
     _driver->calibrate(int(_calibration_home * factor));
 
     return true;
+=======
+	
+		ROS_DEBUG("[MOTOR_CONTROLLER] joint calibration\n");
+		
+		long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
+		long int factor = joint_factor / (2. * M_PI);
+
+		_driver->calibrateDriver(int( _calibration_home * factor));
+		
+		ROS_INFO("Home in pulses: %f\tFactor: %d\tHome in radians: %f\t", _calibration_home * factor, factor, _calibration_home);		
+
+		return true;
+>>>>>>> 04b68ba0ab7a767db233ed07f5570c4237ff1edd
 }
 
 //////////////////////////////////////////////////

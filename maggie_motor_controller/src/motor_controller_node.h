@@ -39,8 +39,6 @@
 #include <maggie_motor_controller_msgs/Configuration.h>
 #include <maggie_motor_controller_msgs/MoveAbsPos.h>
 
-
-
 class MotorControllerNode {
     public:
         /**
@@ -157,15 +155,15 @@ class MotorControllerNode {
         bool move_vel(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
                       maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
 
-		/**
+        /**
          * @brief Callback to calibrate the joint.
          * @param req Calibration type request.
          * @param resp Calibration type response.
          * @return true if there are no errors.
          */
         bool joint_calibration(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
-                      maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
-                      
+                               maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
+
     private:
         // nodes
         ros::NodeHandle _nh;
