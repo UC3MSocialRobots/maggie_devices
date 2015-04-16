@@ -373,7 +373,7 @@ bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAb
 
 		_driver->calibrateDriver(int( _calibration_home * factor));
 		
-		ROS_INFO("Home in pulses: %f\tFactor: %d\tHome in radians: %f\t", _calibration_home * factor, factor, _calibration_home);		
+		ROS_INFO("Home in pulses: %d\tFactor: %d\tHome in radians: %f\t", int(_calibration_home * factor), factor, _calibration_home);		
 
 		return true;
 >>>>>>> 04b68ba0ab7a767db233ed07f5570c4237ff1edd
