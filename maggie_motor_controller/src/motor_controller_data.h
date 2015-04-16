@@ -6,7 +6,7 @@
  * @brief       Global data.
  *
  * @author      Raul Perula-Martinez <raul.perula@uc3m.es>
- * @date        2015-02
+ * @date        2015-04
  *
  * @copyright   Copyright (C) 2015 University Carlos III of Madrid.
  *              All rights reserved.
@@ -25,7 +25,6 @@
  */
 
 //////////////////////////////////////////////////
-
 #define BAUDRATE                    19200
 
 //////////////////////////////////////////////////
@@ -46,8 +45,8 @@
 #define TOTAL_ARMS_REDUCTION        (PULSES_PER_REV * ARMS_REDUCTION_FACTOR)
 
 // home position of the motors from the limit switch after the calibration in rads
-#define NECK_HOR_HOME_POS	 -1.6
-#define NECK_VER_HOME_POS	 -0.6
+#define NECK_HOR_HOME_POS           -1.6
+#define NECK_VER_HOME_POS           -0.6
 
 //////////////////////////////////////////////////
 
@@ -64,6 +63,7 @@
 enum neck_id {
     NECK_HOR = 0, NECK_VER
 };
+
 enum arm_id {
     ARM_LEFT = 0, ARM_RIGHT
 };
