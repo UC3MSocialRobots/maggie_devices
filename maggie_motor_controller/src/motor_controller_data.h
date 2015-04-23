@@ -46,7 +46,7 @@
 
 // home position of the motors from the limit switch after the calibration in rads
 #define NECK_HOR_HOME_POS           -1.0
-#define NECK_VER_HOME_POS           -0.5
+#define NECK_VER_HOME_POS           0.0
 
 //////////////////////////////////////////////////
 
