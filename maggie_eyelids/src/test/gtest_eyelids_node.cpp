@@ -22,7 +22,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "serial_communication_mock.h"
+#include <maggie_serial_comm_drivers/serial_communication_mock.h>
 #include "eyelids_node.h"
 
 using testing::_;

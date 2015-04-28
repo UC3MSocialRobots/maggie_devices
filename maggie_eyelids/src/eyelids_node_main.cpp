@@ -21,8 +21,8 @@
  * A copy of the Licencia Educativa UC3M is in the LICENSE file.
  */
 
+#include <maggie_serial_comm_drivers/serial_communication.h>
 #include "eyelids_node.h"
-#include "serial_communication.h"
 
 int main(int argc, char** argv)
 {

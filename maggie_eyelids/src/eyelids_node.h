@@ -26,7 +26,7 @@
 
 #include <termios.h>
 #include <ros/ros.h>
-#include <serial_communication_interface.h>
+#include <maggie_serial_comm_drivers/serial_communication_interface.h>
 #include "eyelids_data.h"
 
 // messages and services
