@@ -22,7 +22,7 @@
  */
 
 #include <iostream>
-#include "ljacklm_wrapper.h"
+#include <maggie_labjack_drivers/ljacklm_wrapper.h>
 
 using namespace std;
 
