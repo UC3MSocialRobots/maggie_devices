@@ -31,8 +31,8 @@
 #include "rfid_driver_interface.h"
 
 // services
-#include <rfid_msgs/RfidTag.h>
-#include <rfid_msgs/WriteCard.h>
+#include <maggie_rfid_msgs/RfidTag.h>
+#include <maggie_rfid_msgs/WriteCard.h>
 
 using namespace std;
 
@@ -73,7 +73,7 @@ class RfidNode {
          * @param resp RfidTag type response.
          * @return true if there are no errors.
          */
-        bool write_card(rfid_msgs::WriteCard::Request & req, rfid_msgs::WriteCard::Response & resp);
+        bool write_card(maggie_rfid_msgs::WriteCard::Request & req, maggie_rfid_msgs::WriteCard::Response & resp);
 
         //////////////////////////////////////////////////
         // class methods

@@ -61,7 +61,7 @@ RfidNode::~RfidNode()
 
 void RfidNode::init()
 {
-    _write_pub = _nh_private.advertise<rfid_msgs::RfidTag>("rfid_write", 1);
+    _write_pub = _nh_private.advertise<maggie_rfid_msgs::RfidTag>("rfid_write", 1);
     _rfid_write_srv = _nh_private.advertiseService("rfid_write", &RfidNode::write_card, this);
 }
 
@@ -80,7 +80,7 @@ void RfidNode::spin()
 
 //////////////////////////////////////////////////
 
-bool RfidNode::write_card(rfid_msgs::WriteCard::Request & req, rfid_msgs::WriteCard::Response & resp)
+bool RfidNode::write_card(maggie_rfid_msgs::WriteCard::Request & req, maggie_rfid_msgs::WriteCard::Response & resp)
 {
     // copy data from message
     card_data card;
@@ -119,7 +119,7 @@ int RfidNode::read_card()
     int error = 0;
     int num_cards = _rfid_driver->inventory();
 
-    rfid_msgs::RfidTag msg;
+    maggie_rfid_msgs::RfidTag msg;
 
     // if there are cards near, read them
     if (num_cards > 0) {

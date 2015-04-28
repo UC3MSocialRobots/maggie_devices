@@ -91,8 +91,8 @@ void EyelidsNode::spin()
 
 //////////////////////////////////////////////////
 
-bool EyelidsNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
-                               motor_controller_msgs::MoveAbsPos::Response & resp)
+bool EyelidsNode::move_abs_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req,
+                               maggie_motor_controller_msgs::MoveAbsPos::Response & resp)
 {
     if (move(req.position) == -1) {
         return false;
@@ -103,7 +103,7 @@ bool EyelidsNode::move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req,
 
 //////////////////////////////////////////////////
 
-bool EyelidsNode::move_str_pos(eyelids_msgs::MoveStrPos::Request & req, eyelids_msgs::MoveStrPos::Response & resp)
+bool EyelidsNode::move_str_pos(maggie_eyelids_msgs::MoveStrPos::Request & req, maggie_eyelids_msgs::MoveStrPos::Response & resp)
 {
     if (req.position == "open") {
         if (_side == LEFT) {

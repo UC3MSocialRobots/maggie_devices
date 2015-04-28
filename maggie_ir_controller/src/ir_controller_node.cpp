@@ -49,7 +49,7 @@ IRControllerNode::~IRControllerNode()
 
 void IRControllerNode::init()
 {
-    _action_pub = _nh_private.advertise<ir_controller_msgs::GetTvAction>("tv_action", 1);
+    _action_pub = _nh_private.advertise<maggie_ir_controller_msgs::GetTvAction>("tv_action", 1);
     _action_srv = _nh_private.advertiseService("send_command", &IRControllerNode::send_command, this);
 }
 
@@ -65,8 +65,8 @@ void IRControllerNode::spin()
 
 //////////////////////////////////////////////////
 
-bool IRControllerNode::send_command(ir_controller_msgs::SetTvAction::Request & req,
-                                    ir_controller_msgs::SetTvAction::Response & resp)
+bool IRControllerNode::send_command(maggie_ir_controller_msgs::SetTvAction::Request & req,
+                                    maggie_ir_controller_msgs::SetTvAction::Response & resp)
 {
     ROS_DEBUG("[IR_CONTROLLER_NODE] Sending IR command...");
 
@@ -85,38 +85,38 @@ bool IRControllerNode::send_command(ir_controller_msgs::SetTvAction::Request & r
 
 void IRControllerNode::publish(std::string command)
 {
-    ir_controller_msgs::GetTvAction msg;
+    maggie_ir_controller_msgs::GetTvAction msg;
 
     msg.last_update = ros::Time::now();
 
     if (command == "OnOff") {
         // check if TV was ON or OFF
         if (_is_on) {
-            msg.action = ir_controller_msgs::TvActions::OFF;
+            msg.action = maggie_ir_controller_msgs::TvActions::OFF;
             _is_on = false;
         }
         else {
-            msg.action = ir_controller_msgs::TvActions::ON;
+            msg.action = maggie_ir_controller_msgs::TvActions::ON;
             _is_on = true;
         }
     }
     else if (command == "v+") {
-        msg.action = ir_controller_msgs::TvActions::VOL_UP;
+        msg.action = maggie_ir_controller_msgs::TvActions::VOL_UP;
     }
     else if (command == "v-") {
-        msg.action = ir_controller_msgs::TvActions::VOL_DOWN;
+        msg.action = maggie_ir_controller_msgs::TvActions::VOL_DOWN;
     }
     else if (command == "up") {
-        msg.action = ir_controller_msgs::TvActions::CH_UP;
+        msg.action = maggie_ir_controller_msgs::TvActions::CH_UP;
     }
     else if (command == "down") {
-        msg.action = ir_controller_msgs::TvActions::CH_DOWN;
+        msg.action = maggie_ir_controller_msgs::TvActions::CH_DOWN;
     }
     else if (command == "DTV") {
-        msg.action = ir_controller_msgs::TvActions::TV;
+        msg.action = maggie_ir_controller_msgs::TvActions::TV;
     }
     else if (command == "FM") {
-        msg.action = ir_controller_msgs::TvActions::RADIO;
+        msg.action = maggie_ir_controller_msgs::TvActions::RADIO;
     }
 
     _action_pub.publish(msg);

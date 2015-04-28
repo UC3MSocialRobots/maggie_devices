@@ -26,13 +26,13 @@
 
 #include <termios.h>
 #include <ros/ros.h>
+#include <serial_communication_interface.h>
 #include "eyelids_data.h"
-#include "serial_communication_interface.h"
 
 // messages and services
-#include <eyelids_msgs/EyelidPositions.h>
-#include <eyelids_msgs/MoveStrPos.h>
-#include <motor_controller_msgs/MoveAbsPos.h>
+#include <maggie_eyelids_msgs/EyelidPositions.h>
+#include <maggie_eyelids_msgs/MoveStrPos.h>
+#include <maggie_motor_controller_msgs/MoveAbsPos.h>
 
 class EyelidsNode {
     public:
@@ -71,7 +71,7 @@ class EyelidsNode {
          * @param resp MoveAbsPos type response.
          * @return true if there are no errors.
          */
-        bool move_abs_pos(motor_controller_msgs::MoveAbsPos::Request & req, motor_controller_msgs::MoveAbsPos::Response & resp);
+        bool move_abs_pos(maggie_motor_controller_msgs::MoveAbsPos::Request & req, maggie_motor_controller_msgs::MoveAbsPos::Response & resp);
 
         /**
          * @brief Callback to move motors by string name position.
@@ -79,7 +79,7 @@ class EyelidsNode {
          * @param resp MoveStrPos type response.
          * @return true if there are no errors.
          */
-        bool move_str_pos(eyelids_msgs::MoveStrPos::Request & req, eyelids_msgs::MoveStrPos::Response & resp);
+        bool move_str_pos(maggie_eyelids_msgs::MoveStrPos::Request & req, maggie_eyelids_msgs::MoveStrPos::Response & resp);
 
         //////////////////////////////////////////////////
         // methods

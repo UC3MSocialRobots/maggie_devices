@@ -28,9 +28,9 @@
 #include "ir_driver_interface.h"
 
 // messages and services
-#include <ir_controller_msgs/GetTvAction.h>
-#include <ir_controller_msgs/TvActions.h>
-#include <ir_controller_msgs/SetTvAction.h>
+#include <maggie_ir_controller_msgs/GetTvAction.h>
+#include <maggie_ir_controller_msgs/TvActions.h>
+#include <maggie_ir_controller_msgs/SetTvAction.h>
 
 class IRControllerNode {
     public:
@@ -78,8 +78,8 @@ class IRControllerNode {
          * @param resp SetTvActions type response.
          * @return true if there are no errors.
          */
-        bool send_command(ir_controller_msgs::SetTvAction::Request & req,
-                          ir_controller_msgs::SetTvAction::Response & resp);
+        bool send_command(maggie_ir_controller_msgs::SetTvAction::Request & req,
+                          maggie_ir_controller_msgs::SetTvAction::Response & resp);
 
     private:
         ros::NodeHandle _nh;
