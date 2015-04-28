@@ -21,8 +21,8 @@
  * A copy of the Licencia Educativa UC3M is in the LICENSE file.
  */
 
+#include <maggie_ir_drivers/irtrans_wrapper.h>
 #include "ir_controller_node.h"
-#include "irtrans_wrapper.h"
 
 int main(int argc, char** argv)
 {

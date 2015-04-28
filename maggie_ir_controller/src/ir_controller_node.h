@@ -25,7 +25,7 @@
  */
 
 #include <ros/ros.h>
-#include "ir_driver_interface.h"
+#include <maggie_ir_drivers/ir_driver_interface.h>
 
 // messages and services
 #include <maggie_ir_controller_msgs/GetTvAction.h>
