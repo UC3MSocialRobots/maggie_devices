@@ -28,10 +28,8 @@
 
 #include <iostream>
 #include <ros/ros.h>
+#include <maggie_motor_drivers/mcdc3006s.h>
 #include "motor_controller_data.h"
-
-// mcdc3006s driver
-#include <mcdc3006s.h>
 
 // messages and services
 #include <maggie_motor_controller_msgs/Data.h>

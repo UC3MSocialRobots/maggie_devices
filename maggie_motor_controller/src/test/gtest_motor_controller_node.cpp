@@ -22,7 +22,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "mcdc3006s_mock.h"
+#include <maggie_motor_drivers/mcdc3006s_mock.h>
 #include "motor_controller_node.h"
 
 using testing::_;

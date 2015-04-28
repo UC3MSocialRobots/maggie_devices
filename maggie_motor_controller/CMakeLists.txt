@@ -10,9 +10,9 @@ find_package(catkin REQUIRED COMPONENTS maggie_motor_controller_msgs maggie_moto
 
 ## The catkin_package macro generates cmake config files for your package
 catkin_package(
-  INCLUDE_DIRS src
-  CATKIN_DEPENDS roscpp
-  DEPENDS maggie_motor_controller_msgs maggie_motor_drivers
+    INCLUDE_DIRS src
+    CATKIN_DEPENDS roscpp
+    DEPENDS maggie_motor_controller_msgs maggie_motor_drivers
 )
 
 ###########
@@ -22,9 +22,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include src
-  ${catkin_INCLUDE_DIRS}
-  ${maggie_motor_drivers_INCLUDE_DIRS}
+    include src
+    ${catkin_INCLUDE_DIRS}
+    ${maggie_motor_drivers_INCLUDE_DIRS}
 )
 
 add_subdirectory(src)
@@ -37,7 +37,7 @@ add_subdirectory(src)
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 install(DIRECTORY src/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-  PATTERN ".svn" EXCLUDE
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
+    PATTERN ".svn" EXCLUDE
 )
