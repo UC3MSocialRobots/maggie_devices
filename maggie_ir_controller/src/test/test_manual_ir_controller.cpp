@@ -25,7 +25,7 @@
 #include <ros/ros.h>
 
 // service
-#include <ir_controller_msgs/SetTvAction.h>
+#include <maggie_ir_controller_msgs/SetTvAction.h>
 
 using namespace std;
 
@@ -37,8 +37,8 @@ int main(int argc, char** argv)
     string command("");
 
     ros::NodeHandle node;
-    ros::ServiceClient client = node.serviceClient<ir_controller_msgs::SetTvAction>("ir_controller/ir_event_manager");
-    ir_controller_msgs::SetTvAction srv;
+    ros::ServiceClient client = node.serviceClient<maggie_ir_controller_msgs::SetTvAction>("ir_controller/ir_event_manager");
+    maggie_ir_controller_msgs::SetTvAction srv;
 
     do {
         cout << "Select remote (TVLabo or Quit): ";

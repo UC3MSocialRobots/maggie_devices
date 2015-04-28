@@ -21,7 +21,7 @@
  * A copy of the Licencia Educativa UC3M is in the LICENSE file.
  */
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "serial_communication_mock.h"
 #include "eyelids_node.h"
 

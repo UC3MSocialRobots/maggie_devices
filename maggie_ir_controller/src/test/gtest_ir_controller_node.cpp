@@ -21,7 +21,7 @@
  * A copy of the Licencia Educativa UC3M is in the LICENSE file.
  */
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "irtrans_mock.h"
 #include "ir_controller_node.h"
 
