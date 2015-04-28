@@ -21,8 +21,8 @@
  * A copy of the Licencia Educativa UC3M is in the LICENSE file.
  */
 
+#include <maggie_rfid_drivers/rfid_driver_wrapper.h>
 #include "rfid_node.h"
-#include "rfid_driver_wrapper.h"
 
 int main(int argc, char** argv)
 {

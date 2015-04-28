@@ -28,7 +28,7 @@
 
 #include <iostream>
 #include <ros/ros.h>
-#include "rfid_driver_interface.h"
+#include <maggie_rfid_drivers/rfid_driver_interface.h>
 
 // services
 #include <maggie_rfid_msgs/RfidTag.h>
