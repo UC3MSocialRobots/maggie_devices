@@ -1,16 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <launch>
-	<arg name="robot" />
-	<group ns="$(arg robot)">
+    <arg name="robot" />
+    <group ns="$(arg robot)">
         <!-- left eye -->
-		<node name="eyelid_left" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
-			<param name="port" type="string" value="eyelids" />
+        <node name="eyelid_left" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
+            <param name="port" type="string" value="eyelids" />
             <param name="side" type="string" value="left" />
-		</node>
-        
+        </node>
+
         <!-- right eye -->
-		<node name="eyelid_right" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
-			<param name="port" type="string" value="eyelids" />
+        <node name="eyelid_right" pkg="maggie_eyelids" type="eyelids_node_main.exe" output="screen">
+            <param name="port" type="string" value="eyelids" />
             <param name="side" type="string" value="right" />
-		</node>
-	</group>
+        </node>
+    </group>
 </launch>

@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <launch>
-	<arg name="robot" />
-	<group ns="$(arg robot)">
-		<node name="labjack" pkg="maggie_labjack" type="labjack_node_main.exe" output="screen" />
-	</group>
+    <arg name="robot" />
+    <group ns="$(arg robot)">
+        <node name="labjack" pkg="maggie_labjack" type="labjack_node_main.exe" output="screen" />
+    </group>
 </launch>
