@@ -49,8 +49,8 @@
 #define NECK_VER_HOME_POS           -0.5
 
 // max and min position of the motors to set before the calibration to allow the motor reaching the limit switch [RADS]
-#define NECK_HOR_TMP_MAX_POS            0.10
-#define NECK_HOR_TMP_MIN_POS           -3.14
+#define NECK_HOR_TMP_MAX_POS            3.14
+#define NECK_HOR_TMP_MIN_POS           -0.10
 #define NECK_VER_TMP_MAX_POS	        1.20
 #define NECK_VER_TMP_MIN_POS	       -0.10
 
