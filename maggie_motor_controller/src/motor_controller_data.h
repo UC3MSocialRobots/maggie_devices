@@ -55,10 +55,10 @@
 #define NECK_VER_TMP_MIN_POS	       -0.10
 
 // max and min position of the motors after the calibration [RADS]
-#define NECK_HOR_MAX_POS            1.57
-#define NECK_HOR_MIN_POS           -1.57
-#define NECK_VER_MAX_POS            0.60
-#define NECK_VER_MIN_POS           -0.80
+#define NECK_HOR_MAX_POS            1.4
+#define NECK_HOR_MIN_POS           -1.4
+#define NECK_VER_MAX_POS            0.6
+#define NECK_VER_MIN_POS           -0.3
 
 
 //////////////////////////////////////////////////
