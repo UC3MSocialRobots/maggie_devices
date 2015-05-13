@@ -67,6 +67,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _vel_factor = NECK_HOR_REDUCTION_FACTOR;
                 _calibration_home = NECK_HOR_HOME_POS;
                 _tmp_min_pos = NECK_HOR_TMP_MIN_POS;
+                _tmp_max_pos = NECK_HOR_TMP_MAX_POS;
 				_min_pos_after_calib = NECK_HOR_MIN_POS;
 				_max_pos_after_calib = NECK_HOR_MAX_POS;
 				
@@ -80,6 +81,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _vel_factor = NECK_VER_REDUCTION_FACTOR;
                 _calibration_home = NECK_VER_HOME_POS;
                 _tmp_min_pos = NECK_VER_TMP_MIN_POS;
+                _tmp_max_pos = NECK_VER_TMP_MAX_POS;
                 _min_pos_after_calib = NECK_VER_MIN_POS;
 				_max_pos_after_calib = NECK_VER_MAX_POS;
 
