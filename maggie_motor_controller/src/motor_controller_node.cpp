@@ -366,7 +366,8 @@ bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAb
     long int factor = joint_factor / (2. * M_PI);
 	
 	_driver->set_min_pos(_tmp_min_pos * factor);
-    
+  	_driver->set_max_pos(_tmp_max_pos * factor);
+
     _driver->calibrate(int(_calibration_home * factor));
 	
 	_driver->set_min_pos(_min_pos_after_calib * factor);
