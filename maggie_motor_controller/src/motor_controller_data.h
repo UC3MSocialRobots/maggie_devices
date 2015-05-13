@@ -44,9 +44,20 @@
 
 #define TOTAL_ARMS_REDUCTION        (PULSES_PER_REV * ARMS_REDUCTION_FACTOR)
 
-// home position of the motors from the limit switch after the calibration in rads
+// home position of the motors from the limit switch after the calibration [RADS]
 #define NECK_HOR_HOME_POS           -1.0
 #define NECK_VER_HOME_POS           -0.7
+
+// max and min position of the motors to set before the calibration to allow the motor reaching the limit switch [RADS]
+#define NECK_HOR_TMP_MIN_POS           -3.14
+#define NECK_VER_TMP_MIN_POS	       -1.0
+
+// max and min position of the motors after the calibration [RADS]
+#define NECK_HOR_MAX_POS            1.57
+#define NECK_HOR_MIN_POS           -1.57
+#define NECK_VER_MAX_POS            0.8
+#define NECK_VER_MIN_POS           -0.6
+
 
 //////////////////////////////////////////////////
 

@@ -192,7 +192,7 @@ class MotorControllerNode {
         std::string _serial_device, _joint_name;
 
         int _pos_factor, _vel_factor;
-        float _calibration_home;
+        float _calibration_home, _tmp_min_pos, _min_pos_after_calib, _max_pos_after_calib;
 
         MotorDriverInterface *_driver;
 };

@@ -66,7 +66,10 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _pos_factor = TOTAL_NECK_HOR_REDUCTION;
                 _vel_factor = NECK_HOR_REDUCTION_FACTOR;
                 _calibration_home = NECK_HOR_HOME_POS;
-
+                _tmp_min_pos = NECK_HOR_TMP_MIN_POS;
+				_min_pos_after_calib = NECK_HOR_MIN_POS;
+				_max_pos_after_calib = NECK_HOR_MAX_POS;
+				
                 ROS_INFO("[MOTOR_CONTROLLER] Neck: Horizontal joint chosen. factor_position = %d\n", _pos_factor);
                 break;
 
@@ -76,6 +79,9 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _pos_factor = TOTAL_NECK_VER_REDUCTION;
                 _vel_factor = NECK_VER_REDUCTION_FACTOR;
                 _calibration_home = NECK_VER_HOME_POS;
+                _tmp_min_pos = NECK_VER_TMP_MIN_POS;
+                _min_pos_after_calib = NECK_VER_MIN_POS;
+				_max_pos_after_calib = NECK_VER_MAX_POS;
 
                 ROS_INFO("[MOTOR_CONTROLLER] Neck: Vertical joint chosen. factor_position = %d\n", _pos_factor);
                 break;
@@ -358,11 +364,14 @@ bool MotorControllerNode::joint_calibration(maggie_motor_controller_msgs::MoveAb
 
     long int joint_factor = (_joint_name == NECK ? _pos_factor : TOTAL_ARMS_REDUCTION);
     long int factor = joint_factor / (2. * M_PI);
-
+	
+	_driver->set_min_pos(_tmp_min_pos * factor);
+    
     _driver->calibrate(int(_calibration_home * factor));
-
-    ROS_INFO("Home in pulses: %d\tFactor: %ld\tHome in radians: %f\t", int(_calibration_home * factor), factor, _calibration_home);
-
+	
+	_driver->set_min_pos(_min_pos_after_calib * factor);
+	_driver->set_max_pos(_max_pos_after_calib * factor);
+	
     return true;
 }
 
