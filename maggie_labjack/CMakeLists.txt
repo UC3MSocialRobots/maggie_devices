@@ -10,9 +10,9 @@ find_package(catkin REQUIRED COMPONENTS basic_states_skill_msgs batteries_skill_
 
 ## The catkin_package macro generates cmake config files for your package
 catkin_package(
-  INCLUDE_DIRS src
-  CATKIN_DEPENDS roscpp
-  DEPENDS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs maggie_labjack_drivers
+    INCLUDE_DIRS src
+    CATKIN_DEPENDS roscpp
+    DEPENDS basic_states_skill_msgs batteries_skill_msgs touch_skill_msgs maggie_labjack_drivers
 )
 
 ###########
@@ -20,9 +20,9 @@ catkin_package(
 ###########
 
 include_directories(
-  include src
-  ${catkin_INCLUDE_DIRS}
-  ${maggie_labjack_drivers_INCLUDE_DIRS}
+    include src
+    ${catkin_INCLUDE_DIRS}
+    ${maggie_labjack_drivers_INCLUDE_DIRS}
 )
 
 add_subdirectory(src)
@@ -35,7 +35,7 @@ add_subdirectory(src)
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 install(DIRECTORY src/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-  PATTERN ".svn" EXCLUDE
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
+    PATTERN ".svn" EXCLUDE
 )

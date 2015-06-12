@@ -62,6 +62,7 @@ RfidNode::~RfidNode()
 void RfidNode::init()
 {
     _write_pub = _nh_private.advertise<maggie_rfid_msgs::RfidTag>("rfid_write", 1);
+    
     _rfid_write_srv = _nh_private.advertiseService("rfid_write", &RfidNode::write_card, this);
 }
 

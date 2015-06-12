@@ -50,6 +50,7 @@ IRControllerNode::~IRControllerNode()
 void IRControllerNode::init()
 {
     _action_pub = _nh_private.advertise<maggie_ir_controller_msgs::GetTvAction>("tv_action", 1);
+    
     _action_srv = _nh_private.advertiseService("send_command", &IRControllerNode::send_command, this);
 }
 
