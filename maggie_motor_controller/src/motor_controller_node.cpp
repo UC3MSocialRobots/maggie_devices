@@ -71,7 +71,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _min_pos_after_calib = NECK_HOR_MIN_POS;
                 _max_pos_after_calib = NECK_HOR_MAX_POS;
 
-                ROS_INFO("[MOTOR_CONTROLLER] Neck: Horizontal joint chosen. factor_position = %d\n", _pos_factor);
+                ROS_DEBUG("[MOTOR_CONTROLLER] Neck: Horizontal joint chosen. factor_position = %d\n", _pos_factor);
                 break;
 
             case NECK_VER:
@@ -88,7 +88,7 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
                 _min_pos_after_calib = NECK_VER_MIN_POS;
                 _max_pos_after_calib = NECK_VER_MAX_POS;
 
-                ROS_INFO("[MOTOR_CONTROLLER] Neck: Vertical joint chosen. factor_position = %d\n", _pos_factor);
+                ROS_DEBUG("[MOTOR_CONTROLLER] Neck: Vertical joint chosen. factor_position = %d\n", _pos_factor);
                 break;
 
             default:
@@ -102,13 +102,13 @@ MotorControllerNode::MotorControllerNode(MotorDriverInterface *driver) :
             case ARM_LEFT:
                 sem_file += LEFT_ARM_SEMAPHORE_FILE;
 
-                ROS_INFO("[MOTOR_CONTROLLER] Arm: left joint chosen");
+                ROS_DEBUG("[MOTOR_CONTROLLER] Arm: left joint chosen");
                 break;
 
             case ARM_RIGHT:
                 sem_file += RIGHT_ARM_SEMAPHORE_FILE;
 
-                ROS_INFO("[MOTOR_CONTROLLER] Arm: right joint chosen");
+                ROS_DEBUG("[MOTOR_CONTROLLER] Arm: right joint chosen");
                 break;
 
             default:

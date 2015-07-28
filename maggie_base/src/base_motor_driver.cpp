@@ -61,15 +61,15 @@ int BaseMotor::init_communication()
 
     _fd_motor1 = open(DEVICE_NAME1, O_RDWR | O_NOCTTY);
     if (_fd_motor1 < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error while opening puerto serie 0 del motor %s:'%s'", DEVICE_NAME1,
-                 strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while opening puerto serie 0 del motor %s:'%s'", DEVICE_NAME1,
+                  strerror(errno));
         return (1);
     }
 
     _fd_motor2 = open(DEVICE_NAME2, O_RDWR | O_NOCTTY);
     if (_fd_motor2 < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error while opening puerto serie 0 del motor %s:'%s'", DEVICE_NAME2,
-                 strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while opening puerto serie 0 del motor %s:'%s'", DEVICE_NAME2,
+                  strerror(errno));
         return (1);
     }
 
@@ -108,7 +108,7 @@ int BaseMotor::init_communication()
     result = tcsetattr(_fd_motor1, TCSANOW, &newtio1);
 
     if (result) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Configuando puerto serie del motor %s:'%s'", DEVICE_NAME1, strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Configuando puerto serie del motor %s:'%s'", DEVICE_NAME1, strerror(errno));
         return (2);
     }
 
@@ -147,7 +147,7 @@ int BaseMotor::init_communication()
     result = tcsetattr(_fd_motor2, TCSANOW, &newtio2);
 
     if (result) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Configuando puerto serie del motor %s:'%s'", DEVICE_NAME2, strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Configuando puerto serie del motor %s:'%s'", DEVICE_NAME2, strerror(errno));
         return (2);
     }
 
@@ -156,12 +156,12 @@ int BaseMotor::init_communication()
     if (returnValue != 0) {
         ROS_DEBUG("[BASE_MOTOR_DRIVER] access() returned an error %i='%s'", returnValue, strerror(errno));
         if (creat(SEM_FILENAME, S_IRUSR | S_IWUSR) == -1) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] ACCESS:Error creando el fichero de claves:'%s'", strerror(errno));
+            ROS_ERROR("[BASE_MOTOR_DRIVER] ACCESS:Error creando el fichero de claves:'%s'", strerror(errno));
         }
     }
     SEMFDID = ftok(SEM_FILENAME, 'S');
     if (SEMFDID == (key_t) -1) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Errro while creating the key SEMFDID:'%s'", strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while creating the key SEMFDID:'%s'", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -170,14 +170,15 @@ int BaseMotor::init_communication()
               SEMFDID);
     semFD = semget(SEMFDID, 1, IPC_CREAT | 0666);
     if (semFD < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Errro while creating el semaforo para el puerto de comunicaciones:semFD:%i, '%s'",
-                 semFD, strerror(errno));
+        ROS_ERROR(
+            "[BASE_MOTOR_DRIVER] Error while creating el semaforo para el puerto de comunicaciones:semFD:%i, '%s'",
+            semFD, strerror(errno));
         return (3);
     }
 
     returnValue = semctl(semFD, 0, SETVAL, 1);
     if (returnValue != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error while semctl:semFD:%i, '%s'", semFD, strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while semctl:semFD:%i, '%s'", semFD, strerror(errno));
     }
 
     bzero((void *) &_current_cinematic, sizeof(cinematic_data));
@@ -242,7 +243,7 @@ int BaseMotor::end_communication()
     char buf[] = "V0\n\r";
 
     if ((semFD = semget(SEMFDID, 1, 0)) == -1) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] finComunicacionesMotores semget:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] finComunicacionesMotores semget:'%s'", strerror(errno));
         return (1);
     }
 
@@ -261,7 +262,7 @@ int BaseMotor::end_communication()
 
     /* remove it: */
     if (semctl(semFD, 0, IPC_RMID, arg) == -1) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] finComunicacionesMotores semctl:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] finComunicacionesMotores semctl:'%s'", strerror(errno));
 
         return (2);
     }
@@ -276,11 +277,11 @@ int BaseMotor::enable_motors()
 {
     int r;
     if ((r = enable_disable_motor(&_fd_motor1, "EN\r")) != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error habilitando motor 1! Error %d", r);
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error habilitando motor 1! Error %d", r);
         return r;
     }
     if ((r = enable_disable_motor(&_fd_motor2, "EN\r")) != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error habilitando motor 2! Error %d", r);
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error habilitando motor 2! Error %d", r);
         return r;
     }
 
@@ -293,11 +294,11 @@ int BaseMotor::disable_motors()
 {
     int r;
     if ((r = enable_disable_motor(&_fd_motor1, "DI\r")) != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error inhabilitando motor 1! Error %d", r);
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error inhabilitando motor 1! Error %d", r);
         return r;
     }
     if ((r = enable_disable_motor(&_fd_motor2, "DI\r")) != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error inhabilitando motor 2! Error %d", r);
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error inhabilitando motor 2! Error %d", r);
         return r;
     }
 
@@ -320,7 +321,7 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
     char c;
 
     if (strlen(order) > 3) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error en la longitud del comando EN/DI");
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error en la longitud del comando EN/DI");
         return -3;
     }
     bzero((void *) comando, 4);
@@ -334,7 +335,7 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
     bzero((void *) bufIn, 64);
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error adquiriendo el semaforo en enable_disable_motor:'%s'", strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error adquiriendo el semaforo en enable_disable_motor:'%s'", strerror(errno));
         return (-4);
     }
 
@@ -344,14 +345,14 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
 
         // escribimos el comando al driver
         if (semop(semFD, sem_in, 1) != 0) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error inicio zona exclusiva write enable_disable_motor -> (%i) \"'%s'\"",
-                     errno, strerror(errno));
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error inicio zona exclusiva write enable_disable_motor -> (%i) \"'%s'\"",
+                      errno, strerror(errno));
             return -4;
         }
 
         res = write(*fd, comando, l);
         if (res != l) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error escribiendo a _fd_motor1: escritos %d bytes de %d", res, l);
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error escribiendo a _fd_motor1: escritos %d bytes de %d", res, l);
             ROS_DEBUG("[BASE_MOTOR_DRIVER] (%i) \"'%s'\"/n/n", errno, strerror(errno));
             continue;
         }
@@ -360,7 +361,7 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
         l = strlen(comandoGST);
         res = write(*fd, comandoGST, l);
         if (res != l) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error escribiendo a _fd_motor1: escritos %d bytes de %d", res, l);
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error escribiendo a _fd_motor1: escritos %d bytes de %d", res, l);
             ROS_DEBUG("[BASE_MOTOR_DRIVER] (%i) \"'%s'\"", errno, strerror(errno));
             continue;
         }
@@ -370,13 +371,13 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
         res = read(*fd, bufIn, 62);
         read(*fd, &bufIn[63], 1);
         if (semop(semFD, sem_out, 1) != 0) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error fin zona exclusiva read enable_disable_motor -> (%i) \"'%s'\"", errno,
-                     strerror(errno));
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error fin zona exclusiva read enable_disable_motor -> (%i) \"'%s'\"", errno,
+                      strerror(errno));
             return -4;
         }
 
         if (res < SIZE_REPORT_GST) {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error leyendo a fd: leidos %d bytes", res);
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error leyendo a fd: leidos %d bytes", res);
             ROS_DEBUG("[BASE_MOTOR_DRIVER] (%i) \"'%s'\"", errno, strerror(errno));
             continue;
         }
@@ -405,8 +406,8 @@ int BaseMotor::enable_disable_motor(int *fd, const char *order)
         }
         // hemos mandado una cosa rara
         else {
-            ROS_INFO("[BASE_MOTOR_DRIVER] Error comprobando el éxito de nuestro comando inapropiado: \"'%s'\"",
-                     comando);
+            ROS_ERROR("[BASE_MOTOR_DRIVER] Error comprobando el éxito de nuestro comando inapropiado: \"'%s'\"",
+                      comando);
             return -3;
         }
     }
@@ -445,7 +446,7 @@ int BaseMotor::read_data_variable_time_diff(cinematic_data *data, double time_si
     bzero((void *) buf4, 64);
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
         return (1);
     }
 
@@ -453,7 +454,7 @@ int BaseMotor::read_data_variable_time_diff(cinematic_data *data, double time_si
     ROS_DEBUG("[BASE_MOTOR_DRIVER] SEM en leeDatosMotores: %d", semctl( semFD, 0,GETVAL,0));
     int returnValue = semop(semFD, sem_in, 1);
     if (returnValue != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error while semop:'%s'", strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while semop:'%s'", strerror(errno));
     }
 
     // POS
@@ -617,7 +618,7 @@ int BaseMotor::set_velocity(double v, double w)
     }
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
         return (1);
     }
 
@@ -638,7 +639,7 @@ int BaseMotor::set_velocity(double v, double w)
 
     int returnValue = semop(semFD, sem_out, 1);
     if (returnValue != 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Error while semop:semFD:%i, '%s'", semFD, strerror(errno));
+        ROS_ERROR("[BASE_MOTOR_DRIVER] Error while semop:semFD:%i, '%s'", semFD, strerror(errno));
     }
 
     ROS_DEBUG_NAMED("base_motor_driver", "[BASE_MOTOR_DRIVER] v %f w %f vm1 %ld vm2 %ld, v * w: %f", v, w, vm1, vm2,
@@ -688,7 +689,7 @@ int BaseMotor::set_displacement_velocity(double d, double v, double w)
         ;
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
         return (1);
     }
 
@@ -741,7 +742,7 @@ int BaseMotor::move_ahead(double distance)
         ;
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
         return (1);
     }
 
@@ -798,7 +799,7 @@ int BaseMotor::relative_turn(double theta)
         ;
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en leeDatosMotores:'%s'", strerror(errno));
         return (1);
     }
 
@@ -834,7 +835,7 @@ int BaseMotor::reset_odometry()
     struct sembuf sem_in[] = {0, -1, 0};
     struct sembuf sem_out[] = {0, 1, 0};
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en resetOdometry:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en resetOdometry:'%s'", strerror(errno));
         return (1);
     }
 
@@ -865,7 +866,7 @@ int BaseMotor::update_odometry(double x, double y, double theta)
     struct sembuf sem_out[] = {0, 1, 0};
 
     if ((semFD = semget(SEMFDID, 1, 0)) < 0) {
-        ROS_INFO("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en actualizarOdometria:'%s'", strerror(errno));
+        ROS_DEBUG("[BASE_MOTOR_DRIVER] Adquiriendo el semaforo en actualizarOdometria:'%s'", strerror(errno));
         return (1);
     }
 

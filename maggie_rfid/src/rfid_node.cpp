@@ -133,8 +133,8 @@ int RfidNode::read_card()
                 set_data(read_tag_data(get_num_blocks()));
 
                 // publish data
-                ROS_INFO("[RFID_NODE] RFID id: %s", _rfid_card.UID);
-                ROS_INFO("[RFID_NODE] RFID data (size: %d): %s", _rfid_card.data.length, _rfid_card.data.value);
+                ROS_DEBUG("[RFID_NODE] RFID id: %s", _rfid_card.UID);
+                ROS_DEBUG("[RFID_NODE] RFID data (size: %d): %s", _rfid_card.data.length, _rfid_card.data.value);
 
                 // fill the message
                 msg.header.stamp = ros::Time::now();
@@ -217,7 +217,7 @@ void RfidNode::write_tag_data(card_data card)
 
     // wait until read at least a card
     while(_rfid_driver->inventory() == 0) {
-        ROS_INFO("[RFID_NODE] Waiting card to write");
+        ROS_DEBUG("[RFID_NODE] Waiting card to write");
     }
 
     // get the uid label

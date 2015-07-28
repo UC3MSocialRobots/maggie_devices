@@ -48,7 +48,7 @@ LabjackNode::LabjackNode(LabjackDriverInterface *ljdriver) :
         }
     }
 
-    ROS_INFO("[LABJACK] Labjack detected. Waiting for a command...");
+    ROS_DEBUG("[LABJACK] Labjack detected. Waiting for a command...");
 }
 
 //////////////////////////////////////////////////
@@ -540,7 +540,7 @@ int LabjackNode::setState(int state)
 
     switch(state) {
         case basic_states_skill_msgs::States::SLEEP_STATE:
-            ROS_INFO("[LABJACK] SLEEP STATE");
+            ROS_DEBUG("[LABJACK] SLEEP STATE");
             if (_ljdriver->writeIO(IO_ENABLE_BASE, DISABLE) != 0
                 || _ljdriver->writeIO(IO_ENABLE_OTHERS, DISABLE) != 0) {
                 ROS_ERROR("[LABJACK] Error in setState: changing state to SLEEP");
@@ -548,7 +548,7 @@ int LabjackNode::setState(int state)
             }
             break;
         case basic_states_skill_msgs::States::STOP_STATE:
-            ROS_INFO("[LABJACK] STOP STATE");
+            ROS_DEBUG("[LABJACK] STOP STATE");
             if (_ljdriver->writeIO(IO_ENABLE_BASE, DISABLE) != 0 || _ljdriver->writeIO(IO_ENABLE_OTHERS, ENABLE) != 0) {
                 ROS_ERROR("[LABJACK] Error in setState: changing state to STOP");
                 error = -1;
@@ -556,21 +556,21 @@ int LabjackNode::setState(int state)
             ROS_DEBUG("[LABJACK] Checking state: %d == %d", basic_states_skill_msgs::States::STOP_STATE, getState());
             break;
         case basic_states_skill_msgs::States::ACTIVE_STATE:
-            ROS_INFO("[LABJACK] ACTIVE STATE");
+            ROS_DEBUG("[LABJACK] ACTIVE STATE");
             if (_ljdriver->writeIO(IO_ENABLE_BASE, ENABLE) != 0 || _ljdriver->writeIO(IO_ENABLE_OTHERS, ENABLE) != 0) {
                 ROS_ERROR("[LABJACK] Error in setState: changing state to ACTIVE");
                 error = -1;
             }
             break;
         case basic_states_skill_msgs::States::EMERGENCY_STATE:
-            ROS_INFO("[LABJACK] EMERGENCY STATE");
+            ROS_DEBUG("[LABJACK] EMERGENCY STATE");
             if (setEmergency()) {
                 ROS_ERROR("[LABJACK] Error in setState: changing state to EMERGENCY");
                 error = -1;
             }
             break;
         default:
-            ROS_INFO("[LABJACK] UNDEFINED STATE");
+            ROS_DEBUG("[LABJACK] UNDEFINED STATE");
             error = -1;
     }
 
