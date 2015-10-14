@@ -65,6 +65,7 @@ class IRControllerNode {
 
         /**
          * @brief Publish the tv action.
+         * @param status: The finish status.
          */
         void publish(std::string command);
 
