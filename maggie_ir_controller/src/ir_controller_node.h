@@ -60,16 +60,6 @@ class IRControllerNode {
         void spin();
 
         //////////////////////////////////////////////////
-        // publishers
-        //////////////////////////////////////////////////
-
-        /**
-         * @brief Publish the tv action.
-         * @param status: The finish status.
-         */
-        void publish(std::string command);
-
-        //////////////////////////////////////////////////
         // services
         //////////////////////////////////////////////////
 
@@ -85,8 +75,6 @@ class IRControllerNode {
     private:
         ros::NodeHandle _nh;
         ros::NodeHandle _nh_private;
-
-        ros::Publisher _action_pub;
 
         ros::ServiceServer _action_srv;
 

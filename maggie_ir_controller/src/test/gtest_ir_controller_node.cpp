@@ -22,7 +22,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "irtrans_mock.h"
+#include <maggie_ir_drivers/irtrans_mock.h>
 #include "ir_controller_node.h"
 
 using testing::_;
