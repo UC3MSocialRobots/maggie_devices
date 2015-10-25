@@ -10,9 +10,9 @@ find_package(catkin REQUIRED COMPONENTS maggie_ir_controller_msgs maggie_ir_driv
 
 ## The catkin_package macro generates cmake config files for your package
 catkin_package(
-  INCLUDE_DIRS src
-  CATKIN_DEPENDS roscpp
-  DEPENDS maggie_ir_controller_msgs maggie_ir_drivers
+    INCLUDE_DIRS src
+    CATKIN_DEPENDS roscpp
+    DEPENDS maggie_ir_controller_msgs maggie_ir_drivers
 )
 
 ###########
@@ -22,10 +22,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include src
-  ${catkin_INCLUDE_DIRS}
-  ${maggie_ir_drivers_INCLUDE_DIRS}
-  /usr/local/include/irtrans
+    include src
+    ${catkin_INCLUDE_DIRS}
+    ${maggie_ir_drivers_INCLUDE_DIRS}
 )
 
 ADD_SUBDIRECTORY(src)
@@ -39,7 +38,7 @@ ADD_SUBDIRECTORY(src)
 
 ## Mark cpp header files for installation
 install(DIRECTORY include/${PROJECT_NAME}/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h"
-   PATTERN ".svn" EXCLUDE
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
+    PATTERN ".svn" EXCLUDE
 )
