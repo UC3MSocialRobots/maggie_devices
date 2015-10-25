@@ -48,7 +48,6 @@ int main(int argc, char** argv)
         cin >> command;
 
         // Send IR command
-        srv.request.remote = remote;
         srv.request.command = command;
 
         if (!client.call(srv)) {
