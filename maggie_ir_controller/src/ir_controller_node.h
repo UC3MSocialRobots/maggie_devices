@@ -28,7 +28,6 @@
 #include <maggie_ir_drivers/ir_driver_interface.h>
 
 // messages and services
-#include <maggie_ir_controller_msgs/GetTvAction.h>
 #include <maggie_ir_controller_msgs/TvActions.h>
 #include <maggie_ir_controller_msgs/SetTvAction.h>
 
