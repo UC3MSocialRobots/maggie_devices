@@ -30,6 +30,7 @@ int menu()
 {
     int option = -1;
 
+    cout << endl;
     cout << "1.  Set velocities" << endl;
     cout << "2.  Print data" << endl;
     cout << "3.  Move ahead a distance" << endl;
@@ -45,6 +46,7 @@ int menu()
 
     cout << "Choose option: " << endl;
     cin >> option;
+    cout << endl;
 
     return option;
 }
