@@ -56,7 +56,7 @@ int main()
     BaseMotor bm;
 
     double x = 1000, y = 0, theta = 0;
-    int linear_velocity = 0, angular_velocity = 0, distance = 0, angle = 0;
+    double linear_velocity = 0, angular_velocity = 0, distance = 0, angle = 0;
     cinematic_data *data;
 
     bm.init_communication();
@@ -67,7 +67,7 @@ int main()
 
         switch(option) {
             case 1:
-                cout << "Set linear velocity (degrees/sec): " << endl;
+                cout << "Set linear velocity (mm/sec): " << endl;
                 cin >> linear_velocity;
 
                 cout << "Set angular velocity (degrees/sec): " << endl;
