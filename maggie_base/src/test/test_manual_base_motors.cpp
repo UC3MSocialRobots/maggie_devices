@@ -77,6 +77,7 @@ int main()
                 else {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 2:
@@ -90,6 +91,7 @@ int main()
                 else {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 3:
@@ -103,6 +105,7 @@ int main()
                 else {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 4:
@@ -115,6 +118,7 @@ int main()
                 else {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 5:
@@ -133,10 +137,12 @@ int main()
                 else {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 6:
                 bm.reset_odometry();
+
                 break;
 
             case 7:
@@ -148,18 +154,21 @@ int main()
                 cin >> theta;
 
                 bm.update_odometry(x, y, theta);
+
                 break;
 
             case 8:
                 if (bm.enable_motors()) {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 9:
                 if (bm.disable_motors()) {
                     cout << "ERROR" << endl;
                 }
+
                 break;
 
             case 10:
@@ -175,6 +184,7 @@ int main()
                 cin >> theta;
 
                 bm.set_estimate_position(x, y, theta);
+
                 break;
 
             case 11:
@@ -185,6 +195,7 @@ int main()
                 cout << "Posicion estimada x: " << data->x << endl;
                 cout << "Posicion estimada y: " << data->y << endl;
                 cout << "Posicion angular estimada : " << data->theta << endl;
+
                 break;
         }
     }
