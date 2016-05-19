@@ -115,10 +115,8 @@ void BaseMotorNode::publish()
     odom_trans.header.frame_id = "odom";
     odom_trans.child_frame_id = "base_link";
 
-//    odom_trans.transform.translation.x = x;
-//    odom_trans.transform.translation.y = y;
-    odom_trans.transform.translation.x = 0;
-    odom_trans.transform.translation.y = 0;
+    odom_trans.transform.translation.x = x;
+    odom_trans.transform.translation.y = y;
     odom_trans.transform.translation.z = 0.0;
     odom_trans.transform.rotation = odom_quat;
 
