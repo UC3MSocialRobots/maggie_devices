@@ -663,26 +663,34 @@ int BaseMotor::set_displacement_velocity(double d, double v, double w)
     struct sembuf sem_out[] = {0, 1, 0};
     cinematic_data dVelocidad;
 
-    // Desplazamiento:
+    // displacement
     grados = (int) ((d * PULSES_PER_REVOLUTION * REDUCTION) / (360));
     dm = (long int) (grados * 0.713);
+
     bzero((void *) buf, 64);
+
     sprintf(buf, "LR%ld\n\r", dm);
+
     for (l = 0; (buf[l] != '\0') && (l < 63); l++)
         ;
 
-    // Velocidad:
-    w = w * 2.0 * M_PI / (360.0);    // convertimos w a rad/seg
+    // velocity, convert w to rad/sec
+    w = w * 2.0 * M_PI / (360.0);
 
-    // Cambia los signos de la velocidad para ajustar con player
+    // modify sign of velocity to adjust with player
     v1 = v - w * AXIS_LENGTH * 0.5;
     v2 = v + w * AXIS_LENGTH * 0.5;
-    vm1 = (long int) ((v1 * 60 * REDUCTION) / (M_PI * WHEEL_DIAMETER));    // El 60 es para llevar segundos a minutos
+
+    // by 60 to convert to minutes
+    vm1 = (long int) ((v1 * 60 * REDUCTION) / (M_PI * WHEEL_DIAMETER));
     vm2 = (long int) ((v2 * 60 * REDUCTION) / (M_PI * WHEEL_DIAMETER));
+
     bzero((void *) buf1, 64);
     bzero((void *) buf2, 64);
+
     sprintf(buf1, "SP%ld\n\r", vm1);
     sprintf(buf2, "SP%ld\n\r", vm2);
+
     for (l1 = 0; (buf1[l1] != '\0') && (l1 < 63); l1++)
         ;
     for (l2 = 0; (buf2[l2] != '\0') && (l2 < 63); l2++)
@@ -695,21 +703,25 @@ int BaseMotor::set_displacement_velocity(double d, double v, double w)
 
     // INCIO ZONA EXCLUSIVA
     ROS_DEBUG("[BASE_MOTOR_DRIVER] SEM en colocaVelocidadDesplazamiento: %d", semctl( semFD, 0,GETVAL,0));
+
     semop(semFD, sem_in, 1);
 
-    //Ajustamos las velocidades máximas
+    // Ajustamos las velocidades máximas
     write(_fd_motor1, buf1, l1);
     write(_fd_motor2, buf2, l2);
+
     ROS_DEBUG("[BASE_MOTOR_DRIVER] Enviado M1: '%s' Enviado M2: '%s'", buf1, buf2);
 
-    //Indicamos cuanto va a moverse
+    // Indicamos cuanto va a moverse
     write(_fd_motor1, buf, l);
     write(_fd_motor2, buf, l);
+
     ROS_DEBUG("[BASE_MOTOR_DRIVER] Enviado M1: '%s' Enviado M2: '%s'", buf, buf);
 
-    //Comienza a moverse
+    // start moving
     write(_fd_motor1, motor_order.c_str(), 3);
     write(_fd_motor2, motor_order.c_str(), 3);
+
     ROS_DEBUG("[BASE_MOTOR_DRIVER] Enviado M1: '%s' Enviado M2: '%s'", motor_order.c_str(), motor_order.c_str());
 
     semop(semFD, sem_out, 1);

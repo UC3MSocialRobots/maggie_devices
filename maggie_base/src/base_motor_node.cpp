@@ -169,7 +169,7 @@ void BaseMotorNode::twist_callback(const geometry_msgs::Twist::ConstPtr& cmd_vel
     // convert linear speed: m/s -> mm/s
     double linear_speed_mm_s = cmd_vel->linear.x * 1000.f;
 
-    // convert angular speed: radian/s -> degrees/s
+    // convert angular speed: rad/s -> degrees/s
     double angular_speed_deg_s = cmd_vel->angular.z * 180.f / M_PI;
 
     // set the new speeds
